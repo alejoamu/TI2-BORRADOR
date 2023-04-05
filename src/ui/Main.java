@@ -2,6 +2,7 @@ package ui;
 
 import Model.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -60,13 +61,37 @@ public class Main {
                 sc.nextLine();
                 System.out.println("type the input with the format Name++Description++Price++Quantityavailable++purchasedNumber");
                 input = sc.nextLine();
-                System.out.println(" BOOKS, ELECTRONIC, CLOTHES_AND_ACCESORIES");
+                System.out.println("1. BOOKS\n2. ELECTRONIC\n3. CLOTHES_AND_ACCESORIES\n 4. FOOD_AND_DRINKS\n5. PAPELERY" +
+                        "\n6. SPORTS\n7. BEAUTY_AND_PERSONAL_CARE_PRODUCTS\n8. TOYS_AND_GAMES\nEnter an option: ");
                 int optionCategory = sc.nextInt();
                 Category category = null;
                 switch (optionCategory){
                     case 1:
                        category = Category.BOOKS;
                        break;
+                    case 2:
+                        category = Category.ELECTRONIC;
+                        break;
+                    case 3:
+                        category = Category.CLOTHES_AND_ACCESORIES;
+                        break;
+                    case 4:
+                        category = Category.FOOD_AND_DRINKS;
+                        break;
+                    case 5:
+                        category = Category.PAPELERY;
+                        break;
+                    case 6:
+                        category = Category.SPORTS;
+                        break;
+                    case 7:
+                        category = Category.BEAUTY_AND_PERSONAL_CARE_PRODUCTS;
+                        break;
+                    case 8:
+                        category = Category.TOYS_AND_GAMES;
+                    default:
+                        System.out.println("Please enter a valid option.");
+                        break;
                 }
                 String[] data = input.split("\\+\\+");
                 System.out.println(Arrays.toString(data));
