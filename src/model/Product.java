@@ -1,20 +1,44 @@
-package Model;
+package model;
+
+import exceptions.NegativeNumberException;
 
 public class Product {
     private String productName;
     private String Description;
     private Double price;
-    private int QuantityAvailable;
+    private int quantityAvailable;
     private Category category;
     private int purchasedNumber;
 
     public Product(String productName, String description, Double price, int quantityAvailable, Category category, int purchasedNumber) {
+        if((price < 0) || (quantityAvailable < 0) || (purchasedNumber < 0)){
+            throw new NegativeNumberException();
+        }
         this.productName = productName;
         this.Description = description;
         this.price = price;
-        this.QuantityAvailable = quantityAvailable;
+        this.quantityAvailable = quantityAvailable;
         this.category = category;
         this.purchasedNumber = purchasedNumber;
+    }
+
+    public void addQuantityAvailable(int quantity2Add){
+        if(quantity2Add < 0){
+            throw new NegativeNumberException();
+        }
+        quantityAvailable += quantity2Add;
+    }
+
+    public void substractQuantityAvailable(int quantity2Add){
+        if(quantity2Add < 0){
+            throw new NegativeNumberException();
+        }
+        quantityAvailable -= quantity2Add;
+    }
+
+    @Override
+    public String toString() {
+        return productName + " " + Description + " " + price + " " + quantityAvailable + " "+ category + " " + purchasedNumber;
     }
 
     public String getProductName() {
@@ -42,11 +66,11 @@ public class Product {
     }
 
     public int getQuantityAvailable() {
-        return QuantityAvailable;
+        return quantityAvailable;
     }
 
     public void setQuantityAvailable(int quantityAvailable) {
-        QuantityAvailable = quantityAvailable;
+        this.quantityAvailable = quantityAvailable;
     }
 
     public Category getCategory() {
@@ -64,4 +88,5 @@ public class Product {
     public void setPurchasedNumber(int purchasedNumber) {
         this.purchasedNumber = purchasedNumber;
     }
+
 }

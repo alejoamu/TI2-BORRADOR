@@ -1,11 +1,12 @@
 package ui;
 
-import Model.*;
+import exceptions.EmptyFileException;
+import exceptions.NegativeNumberException;
+import model.*;
+import exceptions.IncompleteDataException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -15,37 +16,46 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //load the information
         //productList.load();
+        try{
+            boolean stopFlag = false;
+            while (!stopFlag) {
+                System.out.println("Please select an option");
+                System.out.println("\n1. Add menu\n2. Delete menu\n3. Search menu\n4. Change quantity of product\n5. Exit");
+                int option = sc.nextInt();
+                sc.nextLine();
+                // Determine action based on user input
+                try{
+                    switch (option) {
+                        case 1:
+                            addMenu();
+                            break;
+                        case 2:
+                            deleteMenu();
+                            break;
+                        case 3:
+                            searchMenu();
+                            break;
+                        case 4:
+                            changeQuantity();
+                            break;
+                        case 5:
+                            System.out.println("\t\tEXIT SUCCESSFULLY");
+                            stopFlag = true;
+                            break;
+                        default:
+                            // Handle invalid input
+                            System.out.println("OPTION NOT AVAILABLE");
+                            break;
+                    }
+                }catch (IncompleteDataException | NegativeNumberException | EmptyFileException ex){
+                    System.out.println(ex.getMessage());
+                }
 
-        boolean stopFlag = false;
-        while (!stopFlag) {
-            System.out.println("Please select an option");
-            System.out.println("\n1. Add menu\n2. Delete menu\n3. Search menu\n4. Change quantity of product\n5. Exit");
-            int option = sc.nextInt();
-            sc.nextLine();
-            // Determine action based on user input
-            switch (option) {
-                case 1:
-                    addMenu();
-                    break;
-                case 2:
-                    deleteMenu();
-                    break;
-                case 3:
-                    searchMenu();
-                    break;
-                case 4:
-                    changeQuantity();
-                    break;
-                case 5:
-                    System.out.println("\t\tEXIT SUCCESSFULLY");
-                    stopFlag = true;
-                    break;
-                default:
-                    // Handle invalid input
-                    System.out.println("OPTION NOT AVAILABLE");
-                    break;
             }
+        } catch (InputMismatchException ex){
+            System.out.println("Debe ingresar un dato numérico"); // Revisar si tenemos que crear esta excepción
         }
+
     }
 
     public static void addMenu() throws IOException {
@@ -67,8 +77,8 @@ public class Main {
         sc.nextLine();
         System.out.println("type the input with the format Name++Description++Price++Quantityavailable++purchasedNumber");
         String input = sc.nextLine();
-        System.out.println("1. BOOKS\n2. ELECTRONIC\n3. CLOTHES_AND_ACCESORIES\n 4. FOOD_AND_DRINKS\n5. PAPELERY" +
-                "\n6. SPORTS\n7. BEAUTY_AND_PERSONAL_CARE_PRODUCTS\n8. TOYS_AND_GAMES\nEnter an option: ");
+        System.out.println("1. BOOKS\n2. ELECTRONIC\n3. CLOTHES_AND_ACCESORIES\n4. FOOD_AND_DRINKS\n5. PAPELERY" +
+                "\n6. SPORTS\n7. BEAUTY_AND_PERSONAL_CARE_PRODUCTS\n8. TOYS_AND_GAMES\nEnter a category: ");
         int optionCategory = sc.nextInt();
         Category category = null;
         switch (optionCategory) {
@@ -138,7 +148,8 @@ public class Main {
         controller.showOrderList();
         System.out.println("Please enter the buyer name of the order to delete");
         String buyerName = sc.nextLine();
-        controller.deleteOrder(buyerName);
+        System.out.println(controller.deleteOrder(buyerName));
+
     }
 
     public static void searchMenu() throws IOException { // Metodo para saber si se busca un producto o una orden

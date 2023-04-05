@@ -1,6 +1,7 @@
-package Model;
+package model;
 
 import com.google.gson.Gson;
+import exceptions.EmptyFileException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -61,9 +62,14 @@ public class OrderList {
     }
 
     public void show() {
-        for (Order o : orders) { //O es cada elemento de la lista
-            System.out.println(o.getBuyerName());
+        try {
+            for (Order order : orders) { //Order es cada elemento de la lista
+                System.out.println("Buyer: " + order.getBuyerName() + " Products list: " + order.getProductsOrder() + " Total price: " + order.getTotalPrice() + " Purchase date: " + order.getPurchasedDate());
+            }
+        }catch (NullPointerException ex){
+            throw new EmptyFileException("The file is empty");
         }
+
     }
 
     public void searchOrder(int option, String data) { //Busca la orden dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
@@ -85,15 +91,15 @@ public class OrderList {
         }
     }
 
-    public void DeleteOrder(String buyName) throws IOException { //Eliminar la orden
+    public String DeleteOrder(String buyName) throws IOException { //Eliminar la orden
+        String msg = "The order doesn't exist in the list";
         for (int i = 0; i < orders.size(); i++) {
             if (orders.get(i).getBuyerName().equals(buyName)) {
                 orders.set(i, null);
                 save();
-                System.out.println("Order deleted successfully");
-                return;
+                msg = "Order deleted successfully";
             }
         }
-        System.out.println("The order doesn't exist in the list");
+        return msg;
     }
 }

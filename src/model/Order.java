@@ -1,18 +1,29 @@
-package Model;
+package model;
 
+import exceptions.NegativeNumberException;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Order {
     private String buyerName;
     private String productsOrder;
     private double totalPrice;
-    private Date purchasedDate;
+    private LocalDate purchasedDate;
 
-    public Order(String buyerName, String productsOrder, double totalPrice/*,Date purchasedDate*/) {
+    public Order(String buyerName, String productsOrder, double totalPrice, LocalDate date) {
+        if(totalPrice < 0){
+            throw new NegativeNumberException();
+        }
+        this.totalPrice = totalPrice;
         this.buyerName = buyerName;
         this.productsOrder = productsOrder;
-        this.totalPrice = totalPrice;
-        //this.purchasedDate = purchasedDate;
+        this.purchasedDate = date;
+    }
+
+    @Override
+    public String toString() {
+        return buyerName + " " + productsOrder + " " + totalPrice + " " + purchasedDate;
     }
 
     public String getBuyerName() {
@@ -39,11 +50,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Date getPurchasedDate() {
+    public LocalDate getPurchasedDate() {
         return purchasedDate;
     }
 
-    public void setPurchasedDate(Date purchasedDate) {
+    public void setPurchasedDate(LocalDate purchasedDate) {
         this.purchasedDate = purchasedDate;
     }
 }
