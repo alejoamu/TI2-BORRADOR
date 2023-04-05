@@ -1,9 +1,6 @@
 package ui;
 
-import Model.Order;
-import Model.OrderList;
-import Model.Product;
-import Model.ProductList;
+import Model.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -63,10 +60,18 @@ public class Main {
                 sc.nextLine();
                 System.out.println("type the input with the format Name++Description++Price++Quantityavailable++purchasedNumber");
                 input = sc.nextLine();
+                System.out.println(" BOOKS, ELECTRONIC, CLOTHES_AND_ACCESORIES");
+                int optionCategory = sc.nextInt();
+                Category category = null;
+                switch (optionCategory){
+                    case 1:
+                       category = Category.BOOKS;
+                       break;
+                }
                 String[] data = input.split("\\+\\+");
                 System.out.println(Arrays.toString(data));
                 productList.getProducts().add(
-                        new Product(data[0], data[1], Double.parseDouble(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]))
+                        new Product(data[0], data[1], Double.parseDouble(data[2]), Integer.parseInt(data[3]), category, Integer.parseInt(data[4]))
                 );
                 productList.save();
                 break;

@@ -1,1 +1,1 @@
-[{"productName":"mouse","Description":"fast","price":100.0,"QuantityAvailable":20,"purchasedNumber":40},{"productName":"mouse","Description":"fast","price":100.0,"QuantityAvailable":40,"purchasedNumber":40}]
+[{"productName":"San","Description":"PS","price":60.0,"QuantityAvailable":3,"category":"BOOKS","purchasedNumber":6}]

@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Order {
     private String buyerName;
-    private String productList;
+    private String productsOrder;
     private double totalPrice;
     private Date purchasedDate;
 
-    public Order(String buyerName, String productList, double totalPrice/*,Date purchasedDate*/) {
+    public Order(String buyerName, String productsOrder, double totalPrice/*,Date purchasedDate*/) {
         this.buyerName = buyerName;
-        this.productList = productList;
+        this.productsOrder = productsOrder;
         this.totalPrice = totalPrice;
         //this.purchasedDate = purchasedDate;
     }
@@ -23,12 +23,12 @@ public class Order {
         this.buyerName = buyerName;
     }
 
-    public String getProductList() {
-        return productList;
+    public String getProductsOrder() {
+        return productsOrder;
     }
 
-    public void setProductList(String productList) {
-        this.productList = productList;
+    public void setProductsOrder(String productsOrder) {
+        this.productsOrder = productsOrder;
     }
 
     public double getTotalPrice() {

@@ -8,12 +8,12 @@ public class Product {
     private Category category;
     private int purchasedNumber;
 
-    public Product(String productName, String description, Double price, int quantityAvailable, /*Category category,*/ int purchasedNumber) {
+    public Product(String productName, String description, Double price, int quantityAvailable, Category category, int purchasedNumber) {
         this.productName = productName;
-        Description = description;
+        this.Description = description;
         this.price = price;
-        QuantityAvailable = quantityAvailable;
-        //this.category = category;
+        this.QuantityAvailable = quantityAvailable;
+        this.category = category;
         this.purchasedNumber = purchasedNumber;
     }
 

@@ -1,1 +1,1 @@
-[null]
+[{"buyerName":"Santiago","productList":"PS5, JABON","totalPrice":60.0}]
