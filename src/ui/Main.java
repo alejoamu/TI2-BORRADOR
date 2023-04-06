@@ -10,10 +10,19 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+
     public static final Scanner sc = new Scanner(System.in);
-    static Controller controller = new Controller();
+    public static final Controller controller = new Controller();
+
+    // Colors for console output
+    public static final String RESET = "\u001B[0m";
+    public static final String BOLD = "\u001B[1m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
 
     public static void main(String[] args) throws IOException {
+        //showMainMenu();
         //load the information
         //productList.load();
         boolean stopFlag = false;
@@ -52,6 +61,180 @@ public class Main {
                 }
             } catch (InputMismatchException ex) {
                 System.out.println("Must enter a numeric data."); // Revisar si tenemos que crear esta excepción
+            }
+        }
+    }
+
+    /**
+     * The method showMainMenu, displays the main menu, allowing the user to choose between product management, order management and exit.
+     */
+    public static void showMainMenu() throws IOException {
+        // Display welcome message
+        System.out.println(BLUE + "***************************************************************" + RESET);
+        System.out.println(BOLD + YELLOW + "                   WELCOME TO MERCADO LIBRE                    " + RESET);
+
+        // Initialize stop flag for menu loop
+        boolean stopFlag = false;
+
+        // Display main menu options until user chooses to exit
+        while (!stopFlag) {
+            System.out.println(BLUE + "***************************************************************" + RESET);
+            System.out.println(BOLD + UNDERLINE + "MAIN MENU:" + RESET +
+                    BOLD + YELLOW + "\n[1]" + RESET + " Product management" +
+                    BOLD + YELLOW + "\n[2]" + RESET + " Order management" +
+                    BOLD + YELLOW + "\n[3]" + RESET + " Exit"
+            );
+
+            try {
+                // Read user input from console
+                System.out.print(BOLD + YELLOW + "> " + RESET);
+                int mainOption = sc.nextInt();
+                System.out.println(BLUE + "***************************************************************" + RESET);
+
+                // Determine action based on user input
+                switch (mainOption) {
+                    case 1:
+                        // Product management
+                        showProductManagementMenu();
+                        break;
+                    case 2:
+                        // Order management
+                        showOrderManagementMenu();
+                        break;
+                    case 3:
+                        System.out.println(BOLD + YELLOW + "                      EXIT SUCCESSFULLY                        ");
+                        System.out.println(BLUE + "***************************************************************" + RESET);
+                        stopFlag = true;
+                        break;
+                    default:
+                        // Handle invalid input
+                        System.out.println(BOLD + YELLOW + "                     OPTION NOT AVAILABLE                      ");
+                        break;
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println(BLUE + "***************************************************************" + RESET);
+                System.out.println(BOLD + YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       ");
+                sc.nextLine(); // Consume the invalid input
+            }
+        }
+    }
+
+    /**
+     * The method showProductManagementMenu, displays the product management menu, allowing the user to choose between several options.
+     */
+    public static void showProductManagementMenu() throws IOException {
+        // Initialize stop flag for menu loop
+        boolean stopFlag = false;
+
+        // Menu loop
+        while (!stopFlag) {
+            // Display menu options and current game state
+            System.out.println(BOLD + UNDERLINE + "PRODUCT MANAGEMENT MENU:" + RESET +
+                    BOLD + YELLOW + "\n[1]" + RESET + " Add new product" +
+                    BOLD + YELLOW + "\n[2]" + RESET + " Delete product" +
+                    BOLD + YELLOW + "\n[3]" + RESET + " Increase the available quantity of a product" +
+                    BOLD + YELLOW + "\n[4]" + RESET + " Search product" +
+                    BOLD + YELLOW + "\n[5]" + RESET + " Return to the main menu");
+            try {
+                // Read user input from console
+                System.out.print(BOLD + YELLOW + "> " + RESET);
+                int mainOption = sc.nextInt();
+
+                // Determine action based on user input
+                switch (mainOption) {
+                    case 1:
+                        // Add new product
+                        addProduct();
+                        stopFlag = true;
+                        break;
+                    case 2:
+                        // Delete product
+                        deleteProduct();
+                        stopFlag = true;
+                        break;
+                    case 3:
+                        // Increase quantity
+                        changeQuantity();
+                        stopFlag = true;
+                        break;
+                    case 4:
+                        // Search product
+
+                        stopFlag = true;
+                        break;
+                    case 5:
+                        // Return to the main menu
+                        stopFlag = true;
+                        break;
+                    default:
+                        // If user selects an option that is not available, display an error message
+                        System.out.println(BLUE + "***************************************************************" + RESET);
+                        System.out.println(BOLD + YELLOW + "                     OPTION NOT AVAILABLE                      ");
+                        System.out.println(BLUE + "***************************************************************" + RESET);
+                        break;
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println(BLUE + "***************************************************************" + RESET);
+                System.out.println(BOLD + YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       ");
+                System.out.println(BLUE + "***************************************************************" + RESET);
+                sc.nextLine(); // Consume the invalid input
+            }
+        }
+    }
+
+    /**
+     * The method showOrderManagementMenu, displays the order management menu, allowing the user to choose between several options.
+     */
+    public static void showOrderManagementMenu() throws IOException {
+        // Initialize stop flag for menu loop
+        boolean stopFlag = false;
+
+        // Menu loop
+        while (!stopFlag) {
+            // Display menu options and current game state
+            System.out.println(BOLD + UNDERLINE + "ORDER MANAGEMENT MENU:" + RESET +
+                    BOLD + YELLOW + "\n[1]" + RESET + " Add new order" +
+                    BOLD + YELLOW + "\n[2]" + RESET + " Delete order" +
+                    BOLD + YELLOW + "\n[3]" + RESET + " Search order" +
+                    BOLD + YELLOW + "\n[4]" + RESET + " Return to the main menu");
+            try {
+                // Read user input from console
+                System.out.print(BOLD + YELLOW + "> " + RESET);
+                int mainOption = sc.nextInt();
+
+                // Determine action based on user input
+                switch (mainOption) {
+                    case 1:
+                        // Add new order
+                        addOrder();
+                        stopFlag = true;
+                        break;
+                    case 2:
+                        // Delete order
+                        deleteOrder();
+                        stopFlag = true;
+                        break;
+                    case 3:
+                        // Search order
+
+                        stopFlag = true;
+                        break;
+                    case 4:
+                        // Return to the main menu
+                        stopFlag = true;
+                        break;
+                    default:
+                        // If user selects an option that is not available, display an error message
+                        System.out.println(BLUE + "***************************************************************" + RESET);
+                        System.out.println(BOLD + YELLOW + "                     OPTION NOT AVAILABLE                      ");
+                        System.out.println(BLUE + "***************************************************************" + RESET);
+                        break;
+                }
+            } catch (InputMismatchException ex) {
+                System.out.println(BLUE + "***************************************************************" + RESET);
+                System.out.println(BOLD + YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       ");
+                System.out.println(BLUE + "***************************************************************" + RESET);
+                sc.nextLine(); // Consume the invalid input
             }
         }
     }
