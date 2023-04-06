@@ -3,11 +3,8 @@ package model;
 import exceptions.IncompleteDataException;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 
 public class Controller {
     static OrderList orderList = new OrderList();
@@ -68,7 +65,7 @@ public class Controller {
     }
 
     public String deleteOrder(String buyerName) throws IOException {
-        return orderList.DeleteOrder(buyerName);
+        return orderList.deleteOrder(buyerName);
     }
 
     public void changeProductQuantity(String product, int newQuantity) throws IOException {

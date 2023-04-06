@@ -95,7 +95,7 @@ public class OrderList {
         }
     }
 
-    public String DeleteOrder(String buyName) throws IOException { //Eliminar la orden
+    public String deleteOrder(String buyName) throws IOException { //Eliminar la orden
         String msg = "The order doesn't exist in the list";
         for (int i = 0; i < orders.size(); i++) {
             if (orders.get(i).getBuyerName().equals(buyName)) {
