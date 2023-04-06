@@ -38,26 +38,30 @@ public class OrderList {
     }
 
     public void load() throws IOException {
-        File file = new File(path);
-        if (file.exists()) {
-            FileInputStream fis = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            String content = "";
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                content += line + "\n";
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                String content = "";
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    content += line + "\n";
+                }
+                //System.out.println(content);
+                Gson gson = new Gson();
+                Order[] array = gson.fromJson(content, Order[].class);
+                orders.addAll(Arrays.asList(array));
+                fis.close();
+            } else {
+                File f = new File(folder);
+                if (!f.exists()) {
+                    f.mkdirs();
+                }
+                file.createNewFile();
             }
-            //System.out.println(content);
-            Gson gson = new Gson();
-            Order[] array = gson.fromJson(content, Order[].class);
-            orders.addAll(Arrays.asList(array));
-            fis.close();
-        } else {
-            File f = new File(folder);
-            if (!f.exists()) {
-                f.mkdirs();
-            }
-            file.createNewFile();
+        }catch (NullPointerException ex){
+            throw new EmptyFileException("The file is empty");
         }
     }
 

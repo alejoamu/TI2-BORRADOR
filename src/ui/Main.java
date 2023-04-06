@@ -16,15 +16,15 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //load the information
         //productList.load();
-        try{
-            boolean stopFlag = false;
-            while (!stopFlag) {
+        boolean stopFlag = false;
+        while (!stopFlag) {
+            try {
                 System.out.println("Please select an option");
                 System.out.println("\n1. Add menu\n2. Delete menu\n3. Search menu\n4. Change quantity of product\n5. Exit");
                 int option = sc.nextInt();
                 sc.nextLine();
                 // Determine action based on user input
-                try{
+                try {
                     switch (option) {
                         case 1:
                             addMenu();
@@ -47,15 +47,13 @@ public class Main {
                             System.out.println("OPTION NOT AVAILABLE");
                             break;
                     }
-                }catch (IncompleteDataException | NegativeNumberException | EmptyFileException ex){
+                } catch (IncompleteDataException | NegativeNumberException | EmptyFileException ex) {
                     System.out.println(ex.getMessage());
                 }
-
+            } catch (InputMismatchException ex) {
+                System.out.println("Must enter a numeric data."); // Revisar si tenemos que crear esta excepción
             }
-        } catch (InputMismatchException ex){
-            System.out.println("Debe ingresar un dato numérico"); // Revisar si tenemos que crear esta excepción
         }
-
     }
 
     public static void addMenu() throws IOException {
