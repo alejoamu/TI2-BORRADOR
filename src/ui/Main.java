@@ -111,9 +111,10 @@ public class Main {
     }
 
     private static void addOrder() throws IOException {
-        //buyerName++productList++totalPrice++purchasedDate
+        //buyerName++productList++totalPrice++purchaseDate
         sc.nextLine();
-        System.out.println("type the input with the format buyerName++productList++totalPrice");
+        System.out.println("type the input with the format buyerName++productList++totalPrice++purchaseDate");
+        System.out.println("Enter the purchase Date with the format YYYY-MM-DD");
         String input = sc.nextLine();
         controller.addOrder(input);
     }
