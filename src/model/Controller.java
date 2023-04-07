@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.DateFormatException;
 import exceptions.IncompleteDataException;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class Controller {
             );
             productList.save();
         } catch (ArrayIndexOutOfBoundsException ex){
-            throw new IncompleteDataException("Error: no se proporcionaron suficientes datos para agregar un producto. Asegúrate de ingresar los siguientes datos separados por '++': nombre, descripción, precio, cantidad en stock y número de veces comprado.");
+            throw new IncompleteDataException();
         }
 
     }
@@ -55,7 +56,9 @@ public class Controller {
             );
             orderList.save();
         }catch (ArrayIndexOutOfBoundsException ex){
-            throw new IncompleteDataException("Error: no se proporcionaron suficientes datos para agregar un producto. Asegúrate de ingresar los siguientes datos separados por '++':");
+            throw new IncompleteDataException();
+        }catch (NumberFormatException ex){
+            throw new DateFormatException();
         }
 
     }

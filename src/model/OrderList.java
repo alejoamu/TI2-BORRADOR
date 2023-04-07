@@ -61,7 +61,7 @@ public class OrderList {
                 file.createNewFile();
             }
         }catch (NullPointerException ex){
-            throw new EmptyFileException("The file is empty");
+            throw new EmptyFileException();
         }
     }
 
@@ -71,7 +71,7 @@ public class OrderList {
                 System.out.println("Buyer: " + order.getBuyerName() + " Products list: " + order.getProductsOrder() + " Total price: " + order.getTotalPrice() + " Purchase date: " + order.getPurchasedDate());
             }
         }catch (NullPointerException ex){
-            throw new EmptyFileException("The file is empty");
+            throw new EmptyFileException();
         }
 
     }

@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderTest {
     LocalDate date = null;
-    public void setupStage(){
+    public void setupStage1(){
         date = LocalDate.of(2023, 04, 05);
     }
     @Test
     public void OrderTest(){
         //Arrange
-        setupStage();
+        setupStage1();
 
         //Act
         Order order = new Order("Santiago", "PS5, PSP, AUDIFONOS", 2000000, date);
@@ -28,7 +28,7 @@ public class OrderTest {
     @Test
     public void NegativePriceTest(){
         //Arrange
-        setupStage();
+        setupStage1();
 
         //Act - Assert
         assertThrows(NegativeNumberException.class, ()->{

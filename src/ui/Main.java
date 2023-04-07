@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.DateFormatException;
 import exceptions.EmptyFileException;
 import exceptions.NegativeNumberException;
 import model.*;
@@ -111,7 +112,7 @@ public class Main {
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         break;
                 }
-            } catch (InputMismatchException ex) {
+            } catch (InputMismatchException | NegativeNumberException | EmptyFileException | IncompleteDataException ex) {
                 System.out.println(BLUE + "***************************************************************" + RESET);
                 System.out.println(BOLD + YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       ");
                 System.out.println(BLUE + "***************************************************************" + RESET);
@@ -394,37 +395,42 @@ public class Main {
         String input = sc.nextLine();
         System.out.println("1. BOOKS\n2. ELECTRONIC\n3. CLOTHES_AND_ACCESORIES\n4. FOOD_AND_DRINKS\n5. PAPELERY" +
                 "\n6. SPORTS\n7. BEAUTY_AND_PERSONAL_CARE_PRODUCTS\n8. TOYS_AND_GAMES\nEnter a category: ");
-        int optionCategory = sc.nextInt();
-        Category category = null;
-        switch (optionCategory) {
-            case 1:
-                category = Category.BOOKS;
-                break;
-            case 2:
-                category = Category.ELECTRONIC;
-                break;
-            case 3:
-                category = Category.CLOTHES_AND_ACCESORIES;
-                break;
-            case 4:
-                category = Category.FOOD_AND_DRINKS;
-                break;
-            case 5:
-                category = Category.PAPELERY;
-                break;
-            case 6:
-                category = Category.SPORTS;
-                break;
-            case 7:
-                category = Category.BEAUTY_AND_PERSONAL_CARE_PRODUCTS;
-                break;
-            case 8:
-                category = Category.TOYS_AND_GAMES;
-            default:
-                System.out.println("Please enter a valid option.");
-                break;
+        try{
+            int optionCategory = sc.nextInt();
+            Category category = null;
+            switch (optionCategory) {
+                case 1:
+                    category = Category.BOOKS;
+                    break;
+                case 2:
+                    category = Category.ELECTRONIC;
+                    break;
+                case 3:
+                    category = Category.CLOTHES_AND_ACCESORIES;
+                    break;
+                case 4:
+                    category = Category.FOOD_AND_DRINKS;
+                    break;
+                case 5:
+                    category = Category.PAPELERY;
+                    break;
+                case 6:
+                    category = Category.SPORTS;
+                    break;
+                case 7:
+                    category = Category.BEAUTY_AND_PERSONAL_CARE_PRODUCTS;
+                    break;
+                case 8:
+                    category = Category.TOYS_AND_GAMES;
+                default:
+                    System.out.println("Please enter a valid option.");
+                    break;
+            }
+            controller.addProduct(input, category);
+        } catch (InputMismatchException | EmptyFileException | IncompleteDataException | NegativeNumberException ex){
+            System.out.println(ex.getMessage());
         }
-        controller.addProduct(input, category);
+
     }
 
     private static void addOrder() throws IOException {
@@ -432,8 +438,12 @@ public class Main {
         sc.nextLine();
         System.out.println("type the input with the format buyerName++productList++totalPrice++purchaseDate");
         System.out.println("Enter the purchase Date with the format YYYY-MM-DD");
-        String input = sc.nextLine();
-        controller.addOrder(input);
+        try{
+            String input = sc.nextLine();
+            controller.addOrder(input);
+        } catch (IncompleteDataException | NegativeNumberException | DateFormatException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
     private static void deleteProduct() throws IOException {

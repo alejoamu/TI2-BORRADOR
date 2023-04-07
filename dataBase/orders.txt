@@ -1,1 +1,1 @@
-[null]
+[{"buyerName":"Juan","productsOrder":"PSP","totalPrice":60.0,"purchasedDate":{"year":2023,"month":4,"day":5}}]

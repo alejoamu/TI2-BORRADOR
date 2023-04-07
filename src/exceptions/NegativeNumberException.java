@@ -2,5 +2,5 @@ package exceptions;
 
 public class NegativeNumberException extends RuntimeException{
 
-    public NegativeNumberException(){super("Negative numbers cannot be entered");}
+    public NegativeNumberException(){super("           NEGATIVE NUMBERS CANNOT BE ENTERED           ");}
 }
