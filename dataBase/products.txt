@@ -1,1 +1,1 @@
-[null,{"productName":"ps5","Description":"bueno","price":100.0,"QuantityAvailable":10,"category":"ELECTRONIC","purchasedNumber":3},{"productName":"ps5","Description":"bueno","price":100.0,"QuantityAvailable":10,"category":"ELECTRONIC","purchasedNumber":3},{"productName":"ps5","Description":"bueno","price":100.0,"QuantityAvailable":10,"category":"ELECTRONIC","purchasedNumber":3}]
+[{"productName":"San","Description":"PS","price":80.0,"quantityAvailable":3,"category":"BOOKS","purchasedNumber":2}]

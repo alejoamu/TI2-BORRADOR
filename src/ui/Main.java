@@ -428,7 +428,9 @@ public class Main {
             }
             controller.addProduct(input, category);
         } catch (InputMismatchException | EmptyFileException | IncompleteDataException | NegativeNumberException ex){
-            System.out.println(ex.getMessage());
+            System.out.println(BLUE + "***************************************************************" + RESET);
+            System.out.println(BOLD + YELLOW + ex.getMessage());
+            System.out.println(BLUE + "***************************************************************" + RESET);
         }
 
     }
@@ -442,7 +444,9 @@ public class Main {
             String input = sc.nextLine();
             controller.addOrder(input);
         } catch (IncompleteDataException | NegativeNumberException | DateFormatException ex){
-            System.out.println(ex.getMessage());
+            System.out.println(BLUE + "***************************************************************" + RESET);
+            System.out.println(BOLD + YELLOW + ex.getMessage());
+            System.out.println(BLUE + "***************************************************************" + RESET);
         }
     }
 
