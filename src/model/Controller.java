@@ -75,10 +75,10 @@ public class Controller {
         productList.changeQuantity(product, newQuantity);
     }
 
-    public void searchProduct(int option, String  data){
-        productList.searchProduct(option, data);
+    public String searchProduct(int option, String  data){
+        return productList.searchProduct(option, data);
     }
-    public void searchOrder(int option, String data){
-        orderList.searchOrder(option, data);
+    public String searchOrder(int option, String data){
+        return orderList.searchOrder(option, data);
     }
 }

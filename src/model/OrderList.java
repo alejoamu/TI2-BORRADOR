@@ -76,23 +76,26 @@ public class OrderList {
 
     }
 
-    public void searchOrder(int option, String data) { //Busca la orden dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
+    public String searchOrder(int option, String data) { //Busca la orden dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
+        String msg = "the order doesn't exist in the list";
         if (option == 1) {
             for (int i = 0; i < orders.size(); i++) {
                 if (orders.get(i).getBuyerName().equals(data)) {
-                    System.out.println(orders.get(i).getBuyerName());
-                    return;
+                    msg = "Buyer: " + orders.get(i).getBuyerName() + " Products list: " + orders.get(i).getProductsOrder() + " Total price: " + orders.get(i).getTotalPrice() + " Purchase date: " + orders.get(i).getPurchasedDate();
+                    return msg;
                 }
             }
         } else if (option == 2) {
             for (int i = 0; i < orders.size(); i++) {
                 if (orders.get(i).getTotalPrice() == Double.parseDouble(data)) {
-                    System.out.println(orders.get(i).getBuyerName());
-                    return;
+                    msg = "Buyer: " + orders.get(i).getBuyerName() + " Products list: " + orders.get(i).getProductsOrder() + " Total price: " + orders.get(i).getTotalPrice() + " Purchase date: " + orders.get(i).getPurchasedDate();
+                    return msg;
                 }
             }
         } else if (option == 3) {
+
         }
+        return msg;
     }
 
     public String deleteOrder(String buyName) throws IOException { //Eliminar la orden

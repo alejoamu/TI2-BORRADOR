@@ -106,6 +106,7 @@ public class Main {
                 System.out.println(BLUE + "***************************************************************" + RESET);
 
                 // Determine action based on user input
+                sc.nextLine();
                 switch (mainOption) {
                     case 1:
                         // Add new product
@@ -168,6 +169,7 @@ public class Main {
                 System.out.println(BLUE + "***************************************************************" + RESET);
 
                 // Determine action based on user input
+                sc.nextLine();
                 switch (mainOption) {
                     case 1:
                         // Add new order
@@ -206,7 +208,7 @@ public class Main {
     /**
      * The method showProductSearchMenu, displays the product search menu, allowing the user to choose between several options.
      */
-    public static void showProductSearchMenu() {
+    public static void showProductSearchMenu() throws IOException{
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -229,38 +231,42 @@ public class Main {
                 sc.nextLine();
                 switch (option) {
                     case 1:
+                        controller.loadProductList();
                         // Search by name
                         System.out.println("Please enter the name of the product");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String name = sc.nextLine();
-                        controller.searchProduct(option, name);
+                        System.out.println(controller.searchProduct(option, name));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
                     case 2:
+                        controller.loadProductList();
                         // Search by price
                         System.out.println("Please enter the price of the product");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String price = sc.nextLine();
-                        controller.searchProduct(option, price);
+                        System.out.println(controller.searchProduct(option, price));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
                     case 3:
+                        controller.loadProductList();
                         // Search by category
                         System.out.println("Please select a category ");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String category = sc.nextLine();
-                        controller.searchProduct(option, category);
+                        System.out.println(controller.searchProduct(option, category));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
                     case 4:
+                        controller.loadProductList();
                         // Search by number of times purchased
                         System.out.println("Please enter the number of times purchased");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String purchasedNum = sc.nextLine();
-                        controller.searchProduct(option, purchasedNum);
+                        System.out.println(controller.searchProduct(option, purchasedNum));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
@@ -286,7 +292,7 @@ public class Main {
     /**
      * The method showOrderSearchMenu, displays the order search menu, allowing the user to choose between several options.
      */
-    public static void showOrderSearchMenu() {
+    public static void showOrderSearchMenu() throws IOException{
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -308,26 +314,29 @@ public class Main {
                 sc.nextLine();
                 switch (option) {
                     case 1:
+                        controller.loadOrderList();
                         System.out.println("Please enter the name of the buyer");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String buyerName = sc.nextLine();
-                        controller.searchOrder(option, buyerName);
+                        System.out.println(controller.searchOrder(option, buyerName));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
                     case 2:
+                        controller.loadOrderList();
                         System.out.println("Please enter the order total price");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String totalPrice = sc.nextLine();
-                        controller.searchOrder(option, totalPrice);
+                        System.out.println(controller.searchOrder(option, totalPrice));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
                     case 3:
+                        controller.loadOrderList();
                         System.out.println("Please enter the purchased date");
                         System.out.print(BOLD + YELLOW + "> " + RESET);
                         String purchasedDate = sc.nextLine();
-                        controller.searchOrder(option, purchasedDate);
+                        System.out.println(controller.searchOrder(option, purchasedDate));
                         System.out.println(BLUE + "***************************************************************" + RESET);
                         stopFlag = true;
                         break;
@@ -352,7 +361,6 @@ public class Main {
 
     private static void addProduct() throws IOException {
         //Name++Description++Price++Quantityavailable++Category++purchasedNumber
-        sc.nextLine();
         System.out.println("type the input with the format Name++Description++Price++Quantityavailable++purchasedNumber");
         String input = sc.nextLine();
         System.out.println("1. BOOKS\n2. ELECTRONIC\n3. CLOTHES_AND_ACCESORIES\n4. FOOD_AND_DRINKS\n5. PAPELERY" +
@@ -384,6 +392,7 @@ public class Main {
                     break;
                 case 8:
                     category = Category.TOYS_AND_GAMES;
+                    break;
                 default:
                     System.out.println("Please enter a valid option.");
                     break;
@@ -399,9 +408,12 @@ public class Main {
 
     private static void addOrder() throws IOException {
         //buyerName++productList++totalPrice++purchaseDate
-        sc.nextLine();
-        System.out.println("type the input with the format buyerName++productList++totalPrice++purchaseDate");
-        System.out.println("Enter the purchase Date with the format YYYY-MM-DD");
+        controller.loadProductList();
+        System.out.println("PRODUCTS LIST");
+        controller.showProductList();
+        System.out.println("NOTE: Enter the purchase Date with the format YYYY-MM-DD");
+        System.out.println("NOTE: Write the quantity of each corresponding product with the format NUM,NUM");
+        System.out.println("Type the input with the format buyerName++productList++ProductQuantity++totalPrice++purchaseDate");
         try{
             String input = sc.nextLine();
             controller.addOrder(input);
@@ -438,51 +450,6 @@ public class Main {
         System.out.println("Please type the new available quantity of this product");
         int newQuantity = sc.nextInt();
         controller.changeProductQuantity(product, newQuantity);
-    }
-
-    public static void addMenu() throws IOException {
-        System.out.println("Please select an add option");
-        System.out.println("\n1. Add a product\n2. Add an order");
-        int option = sc.nextInt();
-        switch (option) {
-            case 1:
-                addProduct();
-                break;
-            case 2:
-                addOrder();
-                break;
-        }
-    }
-
-    public static void deleteMenu() throws IOException {
-        System.out.println("Please select a delete option");
-        System.out.println("\n1. Delete a product\n2. Delete an order");
-        int option = sc.nextInt();
-        sc.nextLine();
-        switch (option) {
-            case 1:
-                deleteProduct();
-                break;
-            case 2:
-                deleteOrder();
-                break;
-        }
-    }
-
-    public static void searchMenu() throws IOException { // Metodo para saber si se busca un producto o una orden
-        System.out.println("Please select a search option");
-        System.out.println("\n1. Search a product\n2. Search an order");
-        int option = sc.nextInt();
-        switch (option) {
-            case 1:
-                controller.loadProductList();
-                showProductSearchMenu();
-                break;
-            case 2:
-                controller.loadOrderList();
-                showOrderSearchMenu();
-                break;
-        }
     }
 
 }

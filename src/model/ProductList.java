@@ -68,39 +68,48 @@ public class ProductList {
         }
     }
 
-    public void searchProduct(int option, String data) { //Busca el producto dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
+    public String searchProduct(int option, String data) { //Busca el producto dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
+        String msg = "The product doesn't exist in the list";
         if (option == 1) {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getProductName().equals(data)) {
-                    System.out.println(products.get(i).getProductName());
-                    return;
+                    msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
+                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                    return msg;
                 }
             }
-            System.out.println("The product doesn't exist in the list");
         } else if (option == 2) {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getPrice() == Double.parseDouble(data)) {
-                    System.out.println(products.get(i).getProductName());
-                    return;
+                    msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
+                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                    return msg;
                 }
             }
             System.out.println("The product doesn't exist in the list");
         } else if (option == 3) {
             Integer.parseInt(data);
             for (int i = 0; i < products.size(); i++) {
-                return;
+                /*if (products.get(i).getCategory() == ) {
+                    System.out.println(products.get(i).getProductName());
+                    return;
+                }*/
+                msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
+                        " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                return msg;
+
             }
-            System.out.println("The product doesn't exist in the list");
         } else {
             Integer.parseInt(data);
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getPurchasedNumber() == Integer.parseInt(data)) {
-                    System.out.println(products.get(i).getProductName());
-                    return;
+                    msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
+                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                    return msg;
                 }
             }
-            System.out.println("The product doesn't exist in the list");
         }
+        return msg;
     }
 
     public void DeleteProduct(String proName) throws IOException { //Elimina el producto
