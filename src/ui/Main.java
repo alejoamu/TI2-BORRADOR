@@ -26,44 +26,6 @@ public class Main {
         showMainMenu();
         //load the information
         //productList.load();
-        boolean stopFlag = false;
-        while (!stopFlag) {
-            try {
-                System.out.println("Please select an option");
-                System.out.println("\n1. Add menu\n2. Delete menu\n3. Search menu\n4. Change quantity of product\n5. Exit");
-                int option = sc.nextInt();
-                sc.nextLine();
-                // Determine action based on user input
-                try {
-                    switch (option) {
-                        case 1:
-                            addMenu();
-                            break;
-                        case 2:
-                            deleteMenu();
-                            break;
-                        case 3:
-                            searchMenu();
-                            break;
-                        case 4:
-                            changeQuantity();
-                            break;
-                        case 5:
-                            System.out.println("\t\tEXIT SUCCESSFULLY");
-                            stopFlag = true;
-                            break;
-                        default:
-                            // Handle invalid input
-                            System.out.println("OPTION NOT AVAILABLE");
-                            break;
-                    }
-                } catch (IncompleteDataException | NegativeNumberException | EmptyFileException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            } catch (InputMismatchException ex) {
-                System.out.println("Must enter a numeric data."); // Revisar si tenemos que crear esta excepción
-            }
-        }
     }
 
     /**
