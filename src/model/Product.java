@@ -29,11 +29,11 @@ public class Product {
         quantityAvailable += quantity2Add;
     }
 
-    public void substractQuantityAvailable(int quantity2Add){
-        if(quantity2Add < 0){
+    public void subtractQuantityAvailable(int quantity2Subtract){
+        if(quantity2Subtract < 0){
             throw new NegativeNumberException();
         }
-        quantityAvailable -= quantity2Add;
+        quantityAvailable -= quantity2Subtract;
     }
 
     @Override

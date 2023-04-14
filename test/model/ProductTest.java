@@ -70,25 +70,25 @@ public class ProductTest {
     }
 
     @Test
-    public void substractQuantityAvailable(){
+    public void subtractQuantityAvailable(){
         //Arrange
         setupStage1();
 
         //Act
-        product.substractQuantityAvailable(4);
+        product.subtractQuantityAvailable(4);
 
         //Assert
         assertEquals(product.getQuantityAvailable(), 0);
     }
 
     @Test
-    public void substractNegativeQuantityAvailable(){
+    public void subtractNegativeQuantityAvailable(){
         //Arrange
         setupStage1();
 
         //Act - Assert
         assertThrows(NegativeNumberException.class, () ->{
-            product.substractQuantityAvailable(-4);
+            product.subtractQuantityAvailable(-4);
         });
     }
 

@@ -1,1 +1,1 @@
-[{"productName":"ps5","Description":"videogame","price":100.0,"quantityAvailable":50,"category":"TOYS_AND_GAMES","purchasedNumber":10}]
+[{"productName":" ","Description":"defe","price":23.0,"quantityAvailable":2,"category":"BOOKS","purchasedNumber":1}]
