@@ -1,5 +1,6 @@
 package model;
 
+import color.Color;
 import exceptions.DateFormatException;
 import exceptions.IncompleteDataException;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 public class Controller {
+
     static OrderList orderList = new OrderList();
     static ProductList productList = new ProductList();
 
@@ -31,36 +33,42 @@ public class Controller {
         productList.showQuantity(product);
     }
 
-    public void addProduct(String input, Category category) throws IOException {
-        try{
-            String[] data = input.split("\\+\\+");
-            System.out.println(Arrays.toString(data));
-            productList.getProducts().add(
-                    new Product(data[0], data[1], Double.parseDouble(data[2]), Integer.parseInt(data[3]), category, Integer.parseInt(data[4]))
-            );
-            productList.save();
-        } catch (ArrayIndexOutOfBoundsException ex){
-            throw new IncompleteDataException();
+    public String getCategory() {
+        StringBuilder msg = new StringBuilder();
+        Category[] categories = Category.values();
+        for (int i = 0; i < categories.length; i++) {
+            String categoryName = categories[i].toString().replace("_", " ");
+            msg.append(Color.BOLD + Color.YELLOW + "\t[").append(i + 1).append("]" + Color.RESET).append(" ").append(categoryName).append("\n");
         }
-
+        return msg.toString();
     }
 
-    public void addOrder(String input) throws IOException {
+    public void addProduct(String[] data) throws IOException {
         try {
-            String[] dataOrders = input.split("\\+\\+");
-            System.out.println(Arrays.toString(dataOrders));
-            String[] arrDate = dataOrders[3].split("-");
-            LocalDate date =LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
+            System.out.println(Arrays.toString(data));
+            productList.getProducts().add(
+                    new Product(data[0], data[1], Double.parseDouble(data[2]), Integer.parseInt(data[3]), Category.values()[Integer.parseInt(data[4])], Integer.parseInt(data[5]))
+            );
+            productList.save();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            throw new IncompleteDataException();
+        }
+    }
+
+    public void addOrder(String[] data) throws IOException {
+        try {
+            System.out.println(Arrays.toString(data));
+            String[] arrDate = data[4].split("-");
+            LocalDate date = LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
             orderList.getOrders().add(
-                    new Order(dataOrders[0], dataOrders[1], Double.parseDouble(dataOrders[2]), date)
+                    new Order(data[0], data[1], Double.parseDouble(data[2]), date)
             );
             orderList.save();
-        }catch (ArrayIndexOutOfBoundsException ex){
+        } catch (ArrayIndexOutOfBoundsException ex) {
             throw new IncompleteDataException();
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             throw new DateFormatException();
         }
-
     }
 
     public void deleteProduct(String productName) throws IOException {
@@ -75,10 +83,11 @@ public class Controller {
         productList.changeQuantity(product, newQuantity);
     }
 
-    public String searchProduct(int option, String  data){
+    public String searchProduct(int option, String data) {
         return productList.searchProduct(option, data);
     }
-    public String searchOrder(int option, String data){
+
+    public String searchOrder(int option, String data) {
         return orderList.searchOrder(option, data);
     }
 }

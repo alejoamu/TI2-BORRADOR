@@ -1,21 +1,26 @@
 package model;
 
+import exceptions.IncompleteDataException;
 import exceptions.NegativeNumberException;
 
 public class Product {
+
     private String productName;
-    private String Description;
-    private Double price;
+    private String description;
+    private double price;
     private int quantityAvailable;
     private Category category;
     private int purchasedNumber;
 
-    public Product(String productName, String description, Double price, int quantityAvailable, Category category, int purchasedNumber) {
+    public Product(String productName, String description, double price, int quantityAvailable, Category category, int purchasedNumber) {
+        if ((productName.equals("")) || (description.equals(""))) {
+            throw new IncompleteDataException();
+        }
         if((price < 0) || (quantityAvailable < 0) || (purchasedNumber < 0)){
             throw new NegativeNumberException();
         }
         this.productName = productName;
-        this.Description = description;
+        this.description = description;
         this.price = price;
         this.quantityAvailable = quantityAvailable;
         this.category = category;
@@ -38,7 +43,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return productName + " " + Description + " " + price + " " + quantityAvailable + " "+ category + " " + purchasedNumber;
+        return productName + " " + description + " " + price + " " + quantityAvailable + " "+ category + " " + purchasedNumber;
     }
 
     public String getProductName() {
@@ -50,18 +55,18 @@ public class Product {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

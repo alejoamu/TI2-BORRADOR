@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.IncompleteDataException;
 import exceptions.NegativeNumberException;
 
 import java.time.LocalDate;

@@ -60,7 +60,6 @@ public class ProductList {
             file.createNewFile();
         }
     }
-
     public void show() {
         for (Product p : products) { //P es cada elemento de la lista
             System.out.println(p.getProductName());
