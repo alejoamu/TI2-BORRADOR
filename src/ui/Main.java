@@ -106,7 +106,6 @@ public class Main {
                     case 1:
                         // Add new product
                         controller.loadProductList();
-                        controller.showProductList();
                         addProduct();
                         stopFlag = true;
                         break;
@@ -442,14 +441,18 @@ public class Main {
     }
 
     public void changeQuantity() throws IOException {
-        controller.loadProductList();
-        controller.showProductList();
-        System.out.println("Please type the name of the product to change their quantity");
-        String product = sc.nextLine();
-        controller.showProductQuantity(product);
-        System.out.println("Please type the new available quantity of this product");
-        int newQuantity = sc.nextInt();
-        controller.changeProductQuantity(product, newQuantity);
+        try {
+            System.out.print(Color.BOLD + Color.YELLOW + "Product name: " + Color.RESET);
+            String product = sc.nextLine();
+            controller.showProductQuantity(product);
+            System.out.print(Color.BOLD + Color.YELLOW + "Quantity to increase: " + Color.RESET);
+            int quantity = sc.nextInt();
+            controller.changeProductQuantity(product, quantity);
+        } catch (IncompleteDataException | NegativeNumberException ex) {
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        }
     }
 
 }

@@ -64,21 +64,38 @@ public class ProductList {
         }
     }
 
-    public Product searchProductByName(String nameProduct) {
-        // Ordenar por nombre ascendente
-        Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
-        products.sort(byName);
-        // Buscar el producto por su nombre
-        int index = binarySearch.search(products, byName, new Product(nameProduct, "---", Integer.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
-        if (index == -1) return null;
-        else return products.get(index);
-    }
-
     public void show() {
         for (Product p : products) { //P es cada elemento de la lista
             System.out.println(p.getProductName());
             return;
         }
+    }
+
+    public Product searchProductByName(String nameProduct) {
+        // Sort by name ascending
+        Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
+        products.sort(byName);
+        // Search for the product by its name
+        int index = binarySearch.search(products, byName, new Product(nameProduct, "---", Integer.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+        if (index == -1) return null;
+        else return products.get(index);
+    }
+
+    public boolean changeQuantity(String product, int quantity) {
+        // Sort by name ascending
+        Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
+        products.sort(byName);
+        // Search for the product by its name
+        int index = binarySearch.search(products, byName, new Product(product, "---", Integer.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+        if (index == -1) {
+            return false;
+        } else {
+            System.out.println(products.get(index).getQuantityAvailable());
+            products.get(index).setQuantityAvailable(quantity);
+            System.out.println(products.get(index).getQuantityAvailable());
+            return true;
+        }
+
     }
 
     public String searchProduct(int option, String data) { //Busca el producto dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
@@ -146,15 +163,4 @@ public class ProductList {
         }
     }
 
-    public void changeQuantity(String product, int quantity) throws IOException {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProductName().equals(product)) {
-                products.get(i).setQuantityAvailable(quantity);
-                System.out.println("The quantity change is successfully");
-                System.out.println("The new quantity for " + products.get(i).getProductName() + " is " + products.get(i).getQuantityAvailable());
-                save();
-                return;
-            }
-        }
-    }
 }

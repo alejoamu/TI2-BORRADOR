@@ -3,6 +3,7 @@ package model;
 import color.Color;
 import exceptions.DateFormatException;
 import exceptions.IncompleteDataException;
+import exceptions.NegativeNumberException;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -62,6 +63,29 @@ public class Controller {
         }
     }
 
+    public void deleteProduct(String productName) throws IOException {
+        productList.DeleteProduct(productName);
+    }
+
+    public void changeProductQuantity(String product, int quantity) throws IOException {
+        if (product.equals("")) {
+            throw new IncompleteDataException();
+        }
+        if(quantity < 0){
+            throw new NegativeNumberException();
+        }
+        if (productList.changeQuantity(product, quantity)) {
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            System.out.println(Color.BOLD + Color.YELLOW + "                  UPDATED AVAILABLE QUANTITY                   " + Color.RESET);
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            productList.save();
+        } else {
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            System.out.println(Color.BOLD + Color.YELLOW + "                   PRODUCT IS NOT REGISTERED                   " + Color.RESET);
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        }
+    }
+
     public void addOrder(String[] data) throws IOException {
         try {
             System.out.println(Arrays.toString(data));
@@ -78,16 +102,8 @@ public class Controller {
         }
     }
 
-    public void deleteProduct(String productName) throws IOException {
-        productList.DeleteProduct(productName);
-    }
-
     public String deleteOrder(String buyerName) throws IOException {
         return orderList.deleteOrder(buyerName);
-    }
-
-    public void changeProductQuantity(String product, int newQuantity) throws IOException {
-        productList.changeQuantity(product, newQuantity);
     }
 
     public String searchProduct(int option, String data) {
