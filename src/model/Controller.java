@@ -45,11 +45,18 @@ public class Controller {
 
     public void addProduct(String[] data) throws IOException {
         try {
-            System.out.println(Arrays.toString(data));
-            productList.getProducts().add(
-                    new Product(data[0], data[1], Double.parseDouble(data[2]), Integer.parseInt(data[3]), Category.values()[Integer.parseInt(data[4])], Integer.parseInt(data[5]))
-            );
-            productList.save();
+            Product newProduct = new Product(data[0], data[1], Double.parseDouble(data[2]), Integer.parseInt(data[3]), Category.values()[Integer.parseInt(data[4])], Integer.parseInt(data[5]));
+            if (productList.searchProductByName(newProduct.getProductName()) != null) {
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                System.out.println(Color.BOLD + Color.YELLOW + "                PRODUCT WAS ALREADY REGISTERED                 " + Color.RESET);
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            } else {
+                productList.getProducts().add(newProduct);
+                productList.save();
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                System.out.println(Color.BOLD + Color.YELLOW + "                  PRODUCT SUCCESSFULLY ADDED                   " + Color.RESET);
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            }
         } catch (ArrayIndexOutOfBoundsException ex) {
             throw new IncompleteDataException();
         }

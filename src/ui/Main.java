@@ -15,19 +15,17 @@ public class Main {
 
     public static final Scanner sc = new Scanner(System.in);
     public static final Controller controller = new Controller();
-
     public static final String category = controller.getCategory();
 
     public static void main(String[] args) throws IOException {
-        showMainMenu();
-        //load the information
-        //productList.load();
+        Main manager = new Main();
+        manager.showMainMenu();
     }
 
     /**
      * The method showMainMenu, displays the main menu, allowing the user to choose between product management, order management and exit.
      */
-    public static void showMainMenu() throws IOException {
+    public void showMainMenu() throws IOException {
         // Display welcome message
         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
         System.out.println(Color.BOLD + Color.YELLOW + "                   WELCOME TO MERCADO LIBRE                    " + Color.RESET);
@@ -83,7 +81,7 @@ public class Main {
     /**
      * The method showProductManagementMenu, displays the product management menu, allowing the user to choose between several options.
      */
-    public static void showProductManagementMenu() throws IOException {
+    public void showProductManagementMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -107,16 +105,20 @@ public class Main {
                 switch (mainOption) {
                     case 1:
                         // Add new product
+                        controller.loadProductList();
+                        controller.showProductList();
                         addProduct();
                         stopFlag = true;
                         break;
                     case 2:
                         // Delete product
+                        controller.loadProductList();
                         deleteProduct();
                         stopFlag = true;
                         break;
                     case 3:
                         // Increase quantity
+                        controller.loadProductList();
                         changeQuantity();
                         stopFlag = true;
                         break;
@@ -147,7 +149,7 @@ public class Main {
     /**
      * The method showOrderManagementMenu, displays the order management menu, allowing the user to choose between several options.
      */
-    public static void showOrderManagementMenu() throws IOException {
+    public void showOrderManagementMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -170,11 +172,13 @@ public class Main {
                 switch (mainOption) {
                     case 1:
                         // Add new order
+                        controller.loadProductList();
                         addOrder();
                         stopFlag = true;
                         break;
                     case 2:
                         // Delete order
+                        controller.loadProductList();
                         deleteOrder();
                         stopFlag = true;
                         break;
@@ -205,7 +209,7 @@ public class Main {
     /**
      * The method showProductSearchMenu, displays the product search menu, allowing the user to choose between several options.
      */
-    public static void showProductSearchMenu() throws IOException {
+    public void showProductSearchMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -289,7 +293,7 @@ public class Main {
     /**
      * The method showOrderSearchMenu, displays the order search menu, allowing the user to choose between several options.
      */
-    public static void showOrderSearchMenu() throws IOException {
+    public void showOrderSearchMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -356,7 +360,7 @@ public class Main {
         }
     }
 
-    private static void addProduct() throws IOException {
+    private void addProduct() throws IOException {
         // Array contains
         String[] input = new String[6];
         // Array contains String product attributes
@@ -390,7 +394,7 @@ public class Main {
 
     }
 
-    private static void addOrder() throws IOException {
+    private void addOrder() throws IOException {
         controller.loadProductList();
         System.out.println("PRODUCTS LIST");
         controller.showProductList();
@@ -420,7 +424,7 @@ public class Main {
         }
     }
 
-    private static void deleteProduct() throws IOException {
+    private void deleteProduct() throws IOException {
         controller.loadProductList();
         controller.showProductList();
         System.out.println("Please enter the name of the product to delete");
@@ -428,7 +432,7 @@ public class Main {
         controller.deleteProduct(productName);
     }
 
-    private static void deleteOrder() throws IOException {
+    private void deleteOrder() throws IOException {
         controller.loadOrderList();
         controller.showOrderList();
         System.out.println("Please enter the buyer name of the order to delete");
@@ -437,7 +441,7 @@ public class Main {
 
     }
 
-    public static void changeQuantity() throws IOException {
+    public void changeQuantity() throws IOException {
         controller.loadProductList();
         controller.showProductList();
         System.out.println("Please type the name of the product to change their quantity");

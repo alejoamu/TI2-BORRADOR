@@ -5,15 +5,19 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class ProductList {
 
     static String folder = "dataBase";
     static String path = "dataBase/products.txt";
-    ArrayList<Product> products;
+
+    private ArrayList<Product> products;
+    private BinarySearch<Product> binarySearch;
 
     public ProductList() {
         products = new ArrayList<>();
+        binarySearch = new BinarySearch<>();
     }
 
     public ArrayList<Product> getProducts() {
@@ -32,8 +36,8 @@ public class ProductList {
         String data = gson.toJson(products);
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-        writer.write(data); // hace que se guarde en el buffer
-        writer.flush(); // hace que el buffer se limpie
+        writer.write(data);
+        writer.flush();
         fos.close();
     }
 
@@ -47,7 +51,6 @@ public class ProductList {
             while ((line = reader.readLine()) != null) {
                 content += line + "\n";
             }
-            //System.out.println(content);
             Gson gson = new Gson();
             Product[] array = gson.fromJson(content, Product[].class);
             products.addAll(Arrays.asList(array));
@@ -60,6 +63,17 @@ public class ProductList {
             file.createNewFile();
         }
     }
+
+    public Product searchProductByName(String nameProduct) {
+        // Ordenar por nombre ascendente
+        Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
+        products.sort(byName);
+        // Buscar el producto por su nombre
+        int index = binarySearch.search(products, byName, new Product(nameProduct, "---", Integer.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+        if (index == -1) return null;
+        else return products.get(index);
+    }
+
     public void show() {
         for (Product p : products) { //P es cada elemento de la lista
             System.out.println(p.getProductName());
@@ -73,7 +87,7 @@ public class ProductList {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getProductName().equals(data)) {
                     msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
-                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : " + products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
                     return msg;
                 }
             }
@@ -81,7 +95,7 @@ public class ProductList {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getPrice() == Double.parseDouble(data)) {
                     msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
-                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : " + products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
                     return msg;
                 }
             }
@@ -94,7 +108,7 @@ public class ProductList {
                     return;
                 }*/
                 msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
-                        " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                        " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : " + products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
                 return msg;
 
             }
@@ -103,7 +117,7 @@ public class ProductList {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getPurchasedNumber() == Integer.parseInt(data)) {
                     msg = "product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
-                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : "+ products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
+                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : " + products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber();
                     return msg;
                 }
             }
@@ -126,17 +140,18 @@ public class ProductList {
     public void showQuantity(String product) {
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getProductName().equals(product)) {
-                System.out.println("The quantity available of " + products.get(i).getProductName() + " is "+products.get(i).getQuantityAvailable());
+                System.out.println("The quantity available of " + products.get(i).getProductName() + " is " + products.get(i).getQuantityAvailable());
                 return;
             }
         }
     }
-    public void changeQuantity(String product,int quantity)throws IOException{
-        for (int i=0; i< products.size(); i++){
-            if (products.get(i).getProductName().equals(product)){
+
+    public void changeQuantity(String product, int quantity) throws IOException {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getProductName().equals(product)) {
                 products.get(i).setQuantityAvailable(quantity);
                 System.out.println("The quantity change is successfully");
-                System.out.println("The new quantity for "+products.get(i).getProductName()+" is "+products.get(i).getQuantityAvailable());
+                System.out.println("The new quantity for " + products.get(i).getProductName() + " is " + products.get(i).getQuantityAvailable());
                 save();
                 return;
             }
