@@ -37,7 +37,7 @@
   "price": 29.99,
   "quantityAvailable": 10,
   "category": "FOOD_AND_DRINKS",
-  "purchasedNumber": 3
+  "purchasedNumber": 6
  },
  {
   "productName": "Notebook",

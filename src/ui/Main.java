@@ -317,21 +317,68 @@ public class Main {
                     case 3:
                         controller.loadProductList();
                         // Search by category
-                        System.out.println("Please select a category ");
-                        System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
-                        String category = sc.nextLine();
-                        System.out.println(controller.searchProduct(option, category));
+                        int categoryIndex = -1;
+                        sc.nextLine();
+                        do {
+                            System.out.print(category);
+                            System.out.print(Color.BOLD + Color.YELLOW + "Category: " + Color.RESET);
+                            try {
+                                categoryIndex = sc.nextInt();
+                            } catch (NumberFormatException ex) {
+                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
+                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            }
+                            if (categoryIndex < 1 || categoryIndex > 8) System.out.println(Color.BOLD + "Please enter a valid option" + Color.RESET);
+                        } while (categoryIndex < 1 || categoryIndex > 8);
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.print(controller.searchProduct(option, String.valueOf(categoryIndex - 1)));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
                     case 4:
                         controller.loadProductList();
-                        // Search by number of times purchased
-                        System.out.println("Please enter the number of times purchased");
-                        System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
-                        String purchasedNum = sc.nextLine();
-                        System.out.println(controller.searchProduct(option, purchasedNum));
-                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        do {
+                            // Display submenu options
+                            System.out.println(Color.BOLD + Color.UNDERLINE + "\tSEARCH METHOD:" + Color.RESET +
+                                    Color.BOLD + Color.YELLOW + "\n\t[1]" + Color.RESET + " Exact search" +
+                                    Color.BOLD + Color.YELLOW + "\n\t[2]" + Color.RESET + " Range search");
+                            System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                            try {
+                                optionSubmenu = sc.nextInt();
+                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                sc.nextLine(); // Consume newline character
+                            } catch (InputMismatchException e) {
+                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
+                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                sc.nextLine(); // Consume invalid input
+                                continue;
+                            }
+                            switch (optionSubmenu) {
+                                case 1:
+                                    // Search by number of times purchased
+                                    try {
+                                        System.out.print(Color.BOLD + Color.YELLOW + "Number of times purchased: " + Color.RESET);
+                                        String purchasedNumber = sc.nextLine();
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                        System.out.print(controller.searchProduct(option, purchasedNumber));
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    } catch (IncompleteDataException ex) {
+                                        System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    }
+                                    break;
+                                case 2:
+                                    // Search by number of times purchased range
+                                    break;
+                                default:
+                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    System.out.println(Color.BOLD + Color.YELLOW + "                     OPTION NOT AVAILABLE                      " + Color.RESET);
+                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    break;
+                            }
+                        } while (optionSubmenu != 1 && optionSubmenu != 2);
                         stopFlag = true;
                         break;
                     case 5:
@@ -440,7 +487,7 @@ public class Main {
             if (i == 4) {
                 int categoryIndex = Integer.parseInt(input[i]);
                 if (categoryIndex < 1 || categoryIndex > 8) {
-                    System.out.println(Color.BOLD + Color.YELLOW + "Please enter a valid option" + Color.RESET);
+                    System.out.println(Color.BOLD + "Please enter a valid option" + Color.RESET);
                     i--;
                 } else {
                     input[i] = String.valueOf(categoryIndex - 1);

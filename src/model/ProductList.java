@@ -93,14 +93,13 @@ public class ProductList {
     }
 
     public String searchProduct(int option, String data) {
-        // String msg = Color.BOLD + Color.YELLOW + "                   PRODUCT IS NOT REGISTERED                   " + Color.RESET;
         StringBuilder msg = new StringBuilder();
         switch (option) {
             case 1:
                 Product product = searchProductByName(data);
                 if (product != null)
-                    msg = new StringBuilder(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchase Number: %d", product.getProductName(), product.getDescription(), product.getPrice(), product.getQuantityAvailable(), product.getCategory(), product.getPurchasedNumber())).append("\n");
-                return msg.toString();
+                    msg = new StringBuilder(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", product.getProductName(), product.getDescription(), product.getPrice(), product.getQuantityAvailable(), product.getCategory(), product.getPurchasedNumber())).append("\n");
+                break;
             case 2:
                 double price = -1;
                 try {
@@ -108,40 +107,33 @@ public class ProductList {
                 } catch (NumberFormatException ex) {
                     throw new IncompleteDataException();
                 }
-                ArrayList<Product> productsFound = searchProductByPrice(price);
-                for (Product p : productsFound) {
-                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchase Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
+                ArrayList<Product> productsFoundPrice = searchProductByPrice(price);
+                for (Product p : productsFoundPrice) {
+                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
                 break;
             case 3:
-
+                ArrayList<Product> productsFoundCategory = searchProductByCategory(Category.values()[Integer.parseInt(data)]);
+                for (Product p : productsFoundCategory) {
+                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
+                }
                 break;
             case 4:
-
+                int purchasedNumber = -1;
+                try {
+                    purchasedNumber = Integer.parseInt(data);
+                } catch (NumberFormatException ex) {
+                    throw new IncompleteDataException();
+                }
+                ArrayList<Product> productsFoundPurchasedNumber = searchProductByPurchasedNumber(purchasedNumber);
+                for (Product p : productsFoundPurchasedNumber) {
+                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
+                }
                 break;
         }
-        /*if (option == 3) {
-            Integer.parseInt(data);
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getCategory() == ) {
-                    System.out.println(products.get(i).getProductName());
-                    return;
-                }
-                msg = new StringBuilder("product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
-                        " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : " + products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber());
-                return msg.toString();
-
-            }
-        } else {
-            Integer.parseInt(data);
-            for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getPurchasedNumber() == Integer.parseInt(data)) {
-                    msg = new StringBuilder("product: " + products.get(i).getProductName() + " Description : " + products.get(i).getDescription() + " Price: " + products.get(i).getPrice() +
-                            " Quantity Available: " + products.get(i).getQuantityAvailable() + " Category : " + products.get(i).getCategory() + " Purchase number :" + products.get(i).getPurchasedNumber());
-                    return msg.toString();
-                }
-            }
-        }*/
+        if (msg.length() == 0) {
+            return Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET;
+        }
         return msg.toString();
     }
 
@@ -150,7 +142,7 @@ public class ProductList {
         Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
         products.sort(byName);
         // Search for the product by its name
-        int index = binarySearch.search(products, byName, new Product(nameProduct, "---", Integer.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+        int index = binarySearch.search(products, byName, new Product(nameProduct, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
         if (index == -1) return null;
         else return products.get(index);
     }
@@ -174,6 +166,58 @@ public class ProductList {
             // Search for any other products with the same price that appear after the found index
             int rightIndex = index + 1;
             while (rightIndex < products.size() && byPrice.compare(products.get(rightIndex), result.get(result.size() - 1)) == 0) {
+                result.add(products.get(rightIndex));
+                rightIndex++;
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Product> searchProductByCategory(Category category) {
+        // Sort by category ascending
+        Comparator<Product> byCategory = (p1, p2) -> p1.getCategory().compareTo(p2.getCategory());
+        products.sort(byCategory);
+        // Search for products with the specified category using binary search
+        ArrayList<Product> result = new ArrayList<>();
+        int index = binarySearch.search(products, byCategory, new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, category, Integer.MAX_VALUE), 0, products.size() - 1);
+        if (index != -1) {
+            // Add the product at the found index to the result list
+            result.add(products.get(index));
+            // Search for any other products with the same category that appear before the found index
+            int leftIndex = index - 1;
+            while (leftIndex >= 0 && byCategory.compare(products.get(leftIndex), result.get(0)) == 0) {
+                result.add(0, products.get(leftIndex));
+                leftIndex--;
+            }
+            // Search for any other products with the same category that appear after the found index
+            int rightIndex = index + 1;
+            while (rightIndex < products.size() && byCategory.compare(products.get(rightIndex), result.get(result.size() - 1)) == 0) {
+                result.add(products.get(rightIndex));
+                rightIndex++;
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Product> searchProductByPurchasedNumber(int purchasedNumber) {
+        // Sort by purchased number ascending
+        Comparator<Product> byPurchasedNumber = (p1, p2) -> Integer.compare(p1.getPurchasedNumber(), p2.getPurchasedNumber());
+        products.sort(byPurchasedNumber);
+        // Search for products with the specified purchased number using binary search
+        ArrayList<Product> result = new ArrayList<>();
+        int index = binarySearch.search(products, byPurchasedNumber, new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, purchasedNumber), 0, products.size() - 1);
+        if (index != -1) {
+            // Add the product at the found index to the result list
+            result.add(products.get(index));
+            // Search for any other products with the same purchased number that appear before the found index
+            int leftIndex = index - 1;
+            while (leftIndex >= 0 && byPurchasedNumber.compare(products.get(leftIndex), result.get(0)) == 0) {
+                result.add(0, products.get(leftIndex));
+                leftIndex--;
+            }
+            // Search for any other products with the same purchased number that appear after the found index
+            int rightIndex = index + 1;
+            while (rightIndex < products.size() && byPurchasedNumber.compare(products.get(rightIndex), result.get(result.size() - 1)) == 0) {
                 result.add(products.get(rightIndex));
                 rightIndex++;
             }
