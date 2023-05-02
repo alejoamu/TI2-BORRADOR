@@ -42,6 +42,7 @@ public class OrderList {
     }
 
     public void load() throws IOException {
+//        try {
         File file = new File(path);
         if (file.exists()) {
             FileInputStream fis = new FileInputStream(file);
@@ -62,6 +63,10 @@ public class OrderList {
             }
             file.createNewFile();
         }
+//        }catch (NullPointerException ex){
+//            throw new EmptyFileException();
+//        }
+
     }
 
     public Order searchOrderByBuyerName(String buyerName) {
@@ -74,7 +79,7 @@ public class OrderList {
         String productsQuantity = "---";
         String[] arrProductsQuantity = productsQuantity.split(",");
 
-        int index = binarySearch.search(orders, byName, new Order(buyerName, arrProducts, Integer.MAX_VALUE, arrProductsQuantity, LocalDate.MAX), 0, orders.size() - 1);
+        int index = binarySearch.search(orders, byName, new Order(buyerName, arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
         if (index == -1) return null;
         else return orders.get(index);
     }
@@ -84,7 +89,7 @@ public class OrderList {
             for (Order order : orders) { //Order es cada elemento de la lista
                 System.out.println("Buyer: " + order.getBuyerName() + " Products list: " + order.getProductsOrder() + " Total price: " + order.getTotalPrice() + " Purchase date: " + order.getPurchasedDate());
             }
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             throw new EmptyFileException();
         }
 

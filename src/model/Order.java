@@ -13,8 +13,8 @@ public class Order {
     private String[] productsQuantity;
     private LocalDate purchasedDate;
 
-    public Order(String buyerName, String[] productsOrder, double totalPrice, String[] productsQuantity,LocalDate date) {
-        if(totalPrice < 0){
+    public Order(String buyerName, String[] productsOrder, String[] productsQuantity, double totalPrice, LocalDate date) {
+        if (totalPrice < 0) {
             throw new NegativeNumberException();
         }
         this.totalPrice = totalPrice;
