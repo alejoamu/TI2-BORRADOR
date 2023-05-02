@@ -172,13 +172,13 @@ public class Main {
                 switch (mainOption) {
                     case 1:
                         // Add new order
-                        controller.loadProductList();
+                        controller.loadOrderList();
                         addOrder();
                         stopFlag = true;
                         break;
                     case 2:
                         // Delete order
-                        controller.loadProductList();
+                        controller.loadOrderList();
                         deleteOrder();
                         stopFlag = true;
                         break;
