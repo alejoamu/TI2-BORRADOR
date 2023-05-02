@@ -64,13 +64,23 @@ public class Controller {
 
     public void addOrder(String[] data) throws IOException {
         try {
-            System.out.println(Arrays.toString(data));
+            String[] arrProducts = data[1].split(",");
+            String[] arrProductsQuantity = data[3].split(",");
             String[] arrDate = data[4].split("-");
             LocalDate date = LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
-            orderList.getOrders().add(
-                    new Order(data[0], data[1], Double.parseDouble(data[2]), date)
-            );
-            orderList.save();
+
+            Order newOrder = new Order(data[0], arrProducts, Integer.parseInt(data[2]), arrProductsQuantity, date);
+            if (orderList.searchOrderByBuyerName(newOrder.getBuyerName()) != null) {
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                System.out.println(Color.BOLD + Color.YELLOW + "                ORDER WAS ALREADY REGISTERED                 " + Color.RESET);
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            } else {
+                orderList.getOrders().add(newOrder);
+                orderList.save();
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                System.out.println(Color.BOLD + Color.YELLOW + "                  ORDER SUCCESSFULLY ADDED                   " + Color.RESET);
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            }
         } catch (ArrayIndexOutOfBoundsException ex) {
             throw new IncompleteDataException();
         } catch (NumberFormatException ex) {

@@ -8,17 +8,19 @@ import java.util.Date;
 
 public class Order {
     private String buyerName;
-    private String productsOrder;
+    private String[] productsOrder;
     private double totalPrice;
+    private String[] productsQuantity;
     private LocalDate purchasedDate;
 
-    public Order(String buyerName, String productsOrder, double totalPrice, LocalDate date) {
+    public Order(String buyerName, String[] productsOrder, double totalPrice, String[] productsQuantity,LocalDate date) {
         if(totalPrice < 0){
             throw new NegativeNumberException();
         }
         this.totalPrice = totalPrice;
         this.buyerName = buyerName;
         this.productsOrder = productsOrder;
+        this.productsQuantity = productsQuantity;
         this.purchasedDate = date;
     }
 
@@ -35,11 +37,11 @@ public class Order {
         this.buyerName = buyerName;
     }
 
-    public String getProductsOrder() {
+    public String[] getProductsOrder() {
         return productsOrder;
     }
 
-    public void setProductsOrder(String productsOrder) {
+    public void setProductsOrder(String[] productsOrder) {
         this.productsOrder = productsOrder;
     }
 
@@ -51,6 +53,14 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public String[] getProductsQuantity() {
+        return productsQuantity;
+    }
+
+    public void setProductsQuantity(String[] productsQuantity) {
+        this.productsQuantity = productsQuantity;
+    }
+
     public LocalDate getPurchasedDate() {
         return purchasedDate;
     }
@@ -58,4 +68,5 @@ public class Order {
     public void setPurchasedDate(LocalDate purchasedDate) {
         this.purchasedDate = purchasedDate;
     }
+
 }
