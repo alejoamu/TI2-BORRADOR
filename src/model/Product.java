@@ -79,7 +79,7 @@ public class Product {
     }
 
     public void setQuantityAvailable(int quantityAvailable) {
-        this.quantityAvailable += quantityAvailable;
+        this.quantityAvailable = quantityAvailable;
     }
 
     public Category getCategory() {

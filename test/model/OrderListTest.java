@@ -5,7 +5,6 @@ import exceptions.NegativeNumberException;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +17,7 @@ public class OrderListTest {
     Order order1 = new Order("Santiago", "PS5, PSP, Audífonos", 2000000.0, date1);
     Order order2 = new Order("James", "Camiseta, Pantaloneta, Guayos", 250000.0, date2);
     Order order3 = new Order("Luis", "XBOX, Mando inalámbrico, Audífonos", 3000000.0, date3);
+
     public void setupStage1() {orderList = new OrderList();}
 
     public void setupStage2() {

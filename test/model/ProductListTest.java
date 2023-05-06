@@ -11,13 +11,14 @@ import static org.junit.Assert.*;
 public class ProductListTest {
 
     ProductList productList;
-
     Product product1 = new Product("PS5", "VideoGame", 2000000.0, 4, Category.TOYS_AND_GAMES, 2);
     Product product2 = new Product("Hamburguesa", "Pan con carne", 25000.0, 50, Category.FOOD_AND_DRINKS, 3);
     Product product3 = new Product("Camiseta", "Camiseta oversize", 70000.0, 20, Category.CLOTHING_AND_ACCESSORIES, 10);
     Product product4 = new Product("XBOX", "VideoGame", 2500000.0, 7, Category.TOYS_AND_GAMES, 3);
     Product product5 = new Product("Balón", "Balón de fútbol", 50000.0, 20, Category.SPORTS, 5);
+
     public void setupStage1() {productList = new ProductList();}
+
     public void setupStage2() {
         productList = new ProductList();
         productList.getProducts().add(product1);

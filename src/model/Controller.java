@@ -30,10 +30,6 @@ public class Controller {
         orderList.show();
     }
 
-    public void showProductQuantity(String product) {
-        productList.showQuantity(product);
-    }
-
     public String getCategory() {
         StringBuilder msg = new StringBuilder();
         Category[] categories = Category.values();
@@ -68,17 +64,11 @@ public class Controller {
     }
 
     public void changeProductQuantity(String product, int quantity) throws IOException {
-        if (product.equals("")) {
-            throw new IncompleteDataException();
-        }
-        if(quantity < 0){
-            throw new NegativeNumberException();
-        }
         if (productList.changeQuantity(product, quantity)) {
+            productList.save();
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
             System.out.println(Color.BOLD + Color.YELLOW + "                  UPDATED AVAILABLE QUANTITY                   " + Color.RESET);
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-            productList.save();
         } else {
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
             System.out.println(Color.BOLD + Color.YELLOW + "                   PRODUCT IS NOT REGISTERED                   " + Color.RESET);
@@ -108,6 +98,10 @@ public class Controller {
 
     public String searchProduct(int option, String data) {
         return productList.searchProduct(option, data);
+    }
+
+    public String searchProduct(int option, String minData, String maxData) {
+        return productList.searchProduct(option, minData, maxData);
     }
 
     public String searchOrder(int option, String data) {

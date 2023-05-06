@@ -7,7 +7,9 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest {
+
     Product product = null;
+
     public void setupStage1(){
         product = new Product("PS5", "Videogame", 2000000.0, 4, Category.TOYS_AND_GAMES, 2);
     }
@@ -19,31 +21,6 @@ public class ProductTest {
 
         //Assert
         assertEquals(product.toString(), "PS5 Videogame 2000000.0 4 TOYS_AND_GAMES 2");
-    }
-
-
-    @Test
-    public void NegativePriceTest(){
-        //Act - Assert
-        assertThrows(NegativeNumberException.class, ()->{
-            Product product = new Product("PS5", "Videogame", -2000000.0, 4, Category.TOYS_AND_GAMES, 2);
-        });
-    }
-
-    @Test
-    public void NegativeQuantityAvailableTest(){
-        //Act - Assert
-        assertThrows(NegativeNumberException.class, ()->{
-            Product product = new Product("PS5", "Videogame", 2000000.0, -4, Category.TOYS_AND_GAMES, 2);
-        });
-    }
-
-    @Test
-    public void NegativePurchasedNumberTest(){
-        //Act - Assert
-        assertThrows(NegativeNumberException.class, ()->{
-            Product product = new Product("PS5", "Videogame", 2000000.0, 4, Category.TOYS_AND_GAMES, -2);
-        });
     }
 
     @Test

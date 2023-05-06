@@ -9,10 +9,13 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderTest {
+
     LocalDate date = null;
+
     public void setupStage1(){
         date = LocalDate.of(2023, 04, 05);
     }
+
     @Test
     public void OrderTest(){
         //Arrange

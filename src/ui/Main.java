@@ -304,6 +304,18 @@ public class Main {
                                     break;
                                 case 2:
                                     // Search by price range
+                                    try {
+                                        System.out.print(Color.BOLD + Color.YELLOW + "Minimal price: " + Color.RESET);
+                                        String minPrice = sc.nextLine();
+                                        System.out.print(Color.BOLD + Color.YELLOW + "Maximum price: " + Color.RESET);
+                                        String maxPrice = sc.nextLine();
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                        System.out.print(controller.searchProduct(option, minPrice, maxPrice));
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    } catch (IncompleteDataException ex) {
+                                        System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    }
                                     break;
                                 default:
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
@@ -555,7 +567,6 @@ public class Main {
         try {
             System.out.print(Color.BOLD + Color.YELLOW + "Product name: " + Color.RESET);
             String product = sc.nextLine();
-            controller.showProductQuantity(product);
             System.out.print(Color.BOLD + Color.YELLOW + "Quantity to increase: " + Color.RESET);
             int quantity = sc.nextInt();
             controller.changeProductQuantity(product, quantity);

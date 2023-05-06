@@ -45,4 +45,31 @@ public class BinarySearch<T> {
         }
     }
 
+    public ArrayList<T> searchObjectsByProperty(ArrayList<T> list, Comparator<T> comparator, T target) {
+        // Search for objects with the same property value using binary search
+        ArrayList<T> result = new ArrayList<>();
+        int index = search(list, comparator, target, 0, list.size() - 1);
+
+        if (index != -1) {
+            // Add the object at the found index to the result list
+            result.add(list.get(index));
+
+            // Search for any other objects with the same property value that appear before the found index
+            int leftIndex = index - 1;
+            while (leftIndex >= 0 && comparator.compare(list.get(leftIndex), result.get(0)) == 0) {
+                result.add(0, list.get(leftIndex));
+                leftIndex--;
+            }
+
+            // Search for any other objects with the same property value that appear after the found index
+            int rightIndex = index + 1;
+            while (rightIndex < list.size() && comparator.compare(list.get(rightIndex), result.get(result.size() - 1)) == 0) {
+                result.add(list.get(rightIndex));
+                rightIndex++;
+            }
+        }
+        return result;
+    }
+
+
 }
