@@ -1,8 +1,10 @@
 package model;
 
+import color.Color;
 import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import exceptions.EmptyFileException;
+import exceptions.IncompleteDataException;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -96,26 +98,44 @@ public class OrderList {
 
     }
 
-    public String searchOrder(int option, String data) { //Busca la orden dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
-        String msg = "the order doesn't exist in the list";
-        if (option == 1) {
-            for (int i = 0; i < orders.size(); i++) {
-                if (orders.get(i).getBuyerName().equals(data)) {
-                    msg = "Buyer: " + orders.get(i).getBuyerName() + " Products list: " + orders.get(i).getProductsOrder() + " Total price: " + orders.get(i).getTotalPrice() + " Purchase date: " + orders.get(i).getPurchasedDate();
-                    return msg;
+    public String searchOrder(int option, String data) {
+        StringBuilder msg = new StringBuilder();
+        switch (option) {
+            case 1:
+                Order order = searchOrderByBuyerName(data);
+                if (order != null)
+                    msg = new StringBuilder(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", order.getBuyerName(), order.getProductsOrder(), order.getTotalPrice(), order.getProductsQuantity(), order.getPurchasedDate())).append("\n");
+                break;
+            case 2:
+                /*ArrayList<Order> ordersFoundProductsOrder = searchOrderByProductsOrder(data);
+                for (Order o : ordersFoundProductsOrder) {
+                    msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
+                }*/
+                break;
+            case 3:
+                double price = -1;
+                try {
+                    price = Double.parseDouble(data);
+                } catch (NumberFormatException ex) {
+                    throw new IncompleteDataException();
                 }
-            }
-        } else if (option == 2) {
-            for (int i = 0; i < orders.size(); i++) {
-                if (orders.get(i).getTotalPrice() == Double.parseDouble(data)) {
-                    msg = "Buyer: " + orders.get(i).getBuyerName() + " Products list: " + orders.get(i).getProductsOrder() + " Total price: " + orders.get(i).getTotalPrice() + " Purchase date: " + orders.get(i).getPurchasedDate();
-                    return msg;
+                ArrayList<Order> ordersFoundPrice = searchOrderByTotalPrice(price);
+                for (Order o : ordersFoundPrice) {
+                    msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
                 }
-            }
-        } else if (option == 3) {
-
+                break;
+            case 4:
+                LocalDate localDate = LocalDate.parse(data);
+                ArrayList<Order> ordersByDate = searchProductByPurchasedDate(localDate);
+                for (Order o : ordersByDate) {
+                    msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
+                }
+                break;
         }
-        return msg;
+        if (msg.length() == 0) {
+            return Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET;
+        }
+        return msg.toString();
     }
 
     public String deleteOrder(String buyName) throws IOException { //Eliminar la orden
@@ -191,9 +211,9 @@ public class OrderList {
         return result;
     }
 
-    /*public ArrayList<Order> searchProductByProductsOrder(String products) {
+    /*public ArrayList<Order> searchOrderByProductsOrder(String products) {
         // Sort by products order ascending
-        Comparator<Order> byProductsOrder = (p1, p2) -> p1.getProductsOrder().compareTo(p2.getProductsOrder());/// arreglar esto
+        Comparator<Order> byProductsOrder = (p1, p2) -> p1.getProductsOrder().equals(p2.getProductsOrder());/// arreglar esto
         orders.sort(byProductsOrder);
         // Search for products with the specified products order using binary search
         ArrayList<Order> result = new ArrayList<>();
