@@ -10,9 +10,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 public class Controller {
-
-    static OrderList orderList = new OrderList();
-    static ProductList productList = new ProductList();
+    private OrderList orderList = new OrderList();
+    private ProductList productList = new ProductList();
 
     public void loadProductList() throws IOException {
         productList.load();
@@ -106,5 +105,13 @@ public class Controller {
 
     public String searchOrder(int option, String data) {
         return orderList.searchOrder(option, data);
+    }
+
+    public OrderList getOrderList() {
+        return orderList;
+    }
+
+    public ProductList getProductList() {
+        return productList;
     }
 }

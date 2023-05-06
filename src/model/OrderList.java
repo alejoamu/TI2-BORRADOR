@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import exceptions.EmptyFileException;
+import exceptions.IncompleteDataException;
 import exceptions.NegativeNumberException;
 
 import java.io.*;
@@ -79,6 +80,9 @@ public class OrderList {
 
     public String searchOrder(int option, String data) { //Busca la orden dentro del arrayList dependiendo del dato (aun no es busqueda binaria)
         String msg = "the order doesn't exist in the list";
+        if(data.equalsIgnoreCase("")) {
+            throw new IncompleteDataException();
+        }
         if (option == 1) {
             for (int i = 0; i < orders.size(); i++) {
                 if (orders.get(i).getBuyerName().equals(data)) {
