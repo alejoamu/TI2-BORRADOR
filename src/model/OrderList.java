@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import exceptions.EmptyFileException;
 
 import java.io.*;
@@ -128,4 +129,94 @@ public class OrderList {
         }
         return msg;
     }
+
+    public ArrayList<Order> searchOrderByTotalPrice(double price) {
+        // Sort by price ascending
+        Comparator<Order> byPrice = (p1, p2) -> Double.compare(p1.getTotalPrice(), p2.getTotalPrice());
+        orders.sort(byPrice);
+        // Search for orders with the specified price using binary search
+        ArrayList<Order> result = new ArrayList<>();
+        String products = "---";
+        String[] arrProducts = products.split(",");
+        String productsQuantity = "---";
+        String[] arrProductsQuantity = productsQuantity.split(",");
+
+        int index = binarySearch.search(orders, byPrice, new Order("---", arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
+        if (index != -1) {
+            // Add the order at the found index to the result list
+            result.add(orders.get(index));
+            // Search for any other orders with the same price that appear before the found index
+            int leftIndex = index - 1;
+            while (leftIndex >= 0 && byPrice.compare(orders.get(leftIndex), result.get(0)) == 0) {
+                result.add(0, orders.get(leftIndex));
+                leftIndex--;
+            }
+            // Search for any other orders with the same price that appear after the found index
+            int rightIndex = index + 1;
+            while (rightIndex < orders.size() && byPrice.compare(orders.get(rightIndex), result.get(result.size() - 1)) == 0) {
+                result.add(orders.get(rightIndex));
+                rightIndex++;
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Order> searchProductByPurchasedDate(LocalDate date) {
+        // Sort by purchase date ascending
+        Comparator<Order> byDate = (p1, p2) -> p1.getPurchasedDate().compareTo(p2.getPurchasedDate());
+        orders.sort(byDate);
+        // Search for orders with the specified category using binary search
+        ArrayList<Order> result = new ArrayList<>();
+        String products = "---";
+        String[] arrProducts = products.split(",");
+        String productsQuantity = "---";
+        String[] arrProductsQuantity = productsQuantity.split(",");
+        int index = binarySearch.search(orders, byDate, new Order("---", arrProducts, arrProductsQuantity, Integer.MAX_VALUE, date), 0, orders.size() - 1);
+        if (index != -1) {
+            // Add the order at the found index to the result list
+            result.add(orders.get(index));
+            // Search for any other orders with the same purchase date that appear before the found index
+            int leftIndex = index - 1;
+            while (leftIndex >= 0 && byDate.compare(orders.get(leftIndex), result.get(0)) == 0) {
+                result.add(0, orders.get(leftIndex));
+                leftIndex--;
+            }
+            // Search for any other orders with the same purchase date that appear after the found index
+            int rightIndex = index + 1;
+            while (rightIndex < orders.size() && byDate.compare(orders.get(rightIndex), result.get(result.size() - 1)) == 0) {
+                result.add(orders.get(rightIndex));
+                rightIndex++;
+            }
+        }
+        return result;
+    }
+
+    /*public ArrayList<Order> searchProductByProductsOrder(String products) {
+        // Sort by products order ascending
+        Comparator<Order> byProductsOrder = (p1, p2) -> p1.getProductsOrder().compareTo(p2.getProductsOrder());/// arreglar esto
+        orders.sort(byProductsOrder);
+        // Search for products with the specified products order using binary search
+        ArrayList<Order> result = new ArrayList<>();
+        String[] arrProducts = products.split(",");
+        String productsQuantity = "---";
+        String[] arrProductsQuantity = productsQuantity.split(",");
+        int index = binarySearch.search(orders, byProductsOrder, new Order("---", arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
+        if (index != -1) {
+            // Add the order at the found index to the result list
+            result.add(orders.get(index));
+            // Search for any other orders with the same products order that appear before the found index
+            int leftIndex = index - 1;
+            while (leftIndex >= 0 && byProductsOrder.compare(orders.get(leftIndex), result.get(0)) == 0) {
+                result.add(0, orders.get(leftIndex));
+                leftIndex--;
+            }
+            // Search for any other orders with the same products order that appear after the found index
+            int rightIndex = index + 1;
+            while (rightIndex < orders.size() && byProductsOrder.compare(orders.get(rightIndex), result.get(result.size() - 1)) == 0) {
+                result.add(orders.get(rightIndex));
+                rightIndex++;
+            }
+        }
+        return result;
+    }*/
 }
