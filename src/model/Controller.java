@@ -69,7 +69,7 @@ public class Controller {
             String[] arrDate = data[4].split("-");
             LocalDate date = LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
 
-            Order newOrder = new Order(data[0], arrProducts, arrProductsQuantity,Integer.parseInt(data[3]),  date);
+            Order newOrder = new Order(data[0], arrProducts, arrProductsQuantity, Integer.parseInt(data[3]), date);
             if (orderList.searchOrderByBuyerName(newOrder.getBuyerName()) != null) {
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "                ORDER WAS ALREADY REGISTERED                 " + Color.RESET);
@@ -95,8 +95,23 @@ public class Controller {
                         return;
                     }
                 }
+                //Decreases the available quantity of the product
+                for (int j = 0; j < arrProducts.length; j++) {
+                    Product product = productList.searchProductByName(arrProducts[j]);
+                    for (int k = 0; k < arrProductsQuantity.length; k++) {
+                        if (product.getQuantityAvailable() >= Integer.parseInt(arrProductsQuantity[k])) {
+                            product.subtractQuantityAvailable(Integer.parseInt(arrProductsQuantity[k]));
+                        }else {
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            System.out.println(Color.BOLD + Color.YELLOW + "        NOT ENOUGH QUANTITIES AVAILABLE FOR ONE PRODUCT                   " + Color.RESET);
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            return;
+                        }
+                    }
+                }
                 orderList.getOrders().add(newOrder);
                 orderList.save();
+                productList.save();
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "                  ORDER SUCCESSFULLY ADDED                   " + Color.RESET);
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
