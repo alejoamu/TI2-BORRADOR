@@ -72,21 +72,6 @@ public class OrderList {
 
     }
 
-    public Order searchOrderByBuyerName(String buyerName) {
-        // Ordenar por nombre ascendente
-        Comparator<Order> byName = (o1, o2) -> o1.getBuyerName().compareToIgnoreCase(o2.getBuyerName());
-        orders.sort(byName);
-        // Buscar la orden por el nombre del comprador
-        String products = "---";
-        String[] arrProducts = products.split(",");
-        String productsQuantity = "---";
-        String[] arrProductsQuantity = productsQuantity.split(",");
-
-        int index = binarySearch.search(orders, byName, new Order(buyerName, arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
-        if (index == -1) return null;
-        else return orders.get(index);
-    }
-
     public void show() {
         try {
             for (Order order : orders) { //Order es cada elemento de la lista
@@ -107,12 +92,6 @@ public class OrderList {
                     msg = new StringBuilder(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", order.getBuyerName(), order.getProductsOrder(), order.getTotalPrice(), order.getProductsQuantity(), order.getPurchasedDate())).append("\n");
                 break;
             case 2:
-                /*ArrayList<Order> ordersFoundProductsOrder = searchOrderByProductsOrder(data);
-                for (Order o : ordersFoundProductsOrder) {
-                    msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
-                }*/
-                break;
-            case 3:
                 double price = -1;
                 try {
                     price = Double.parseDouble(data);
@@ -124,12 +103,15 @@ public class OrderList {
                     msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
                 }
                 break;
-            case 4:
+            case 3:
                 LocalDate localDate = LocalDate.parse(data);
                 ArrayList<Order> ordersByDate = searchProductByPurchasedDate(localDate);
                 for (Order o : ordersByDate) {
                     msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
                 }
+                break;
+            case 4:
+
                 break;
         }
         if (msg.length() == 0) {
@@ -148,6 +130,21 @@ public class OrderList {
             }
         }
         return msg;
+    }
+
+    public Order searchOrderByBuyerName(String buyerName) {
+        // Ordenar por nombre ascendente
+        Comparator<Order> byName = (o1, o2) -> o1.getBuyerName().compareToIgnoreCase(o2.getBuyerName());
+        orders.sort(byName);
+        // Buscar la orden por el nombre del comprador
+        String products = "---";
+        String[] arrProducts = products.split(",");
+        String productsQuantity = "---";
+        String[] arrProductsQuantity = productsQuantity.split(",");
+
+        int index = binarySearch.search(orders, byName, new Order(buyerName, arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
+        if (index == -1) return null;
+        else return orders.get(index);
     }
 
     public ArrayList<Order> searchOrderByTotalPrice(double price) {
@@ -210,33 +207,4 @@ public class OrderList {
         }
         return result;
     }
-
-    /*public ArrayList<Order> searchOrderByProductsOrder(String products) {
-        // Sort by products order ascending
-        Comparator<Order> byProductsOrder = (p1, p2) -> p1.getProductsOrder().equals(p2.getProductsOrder());/// arreglar esto
-        orders.sort(byProductsOrder);
-        // Search for products with the specified products order using binary search
-        ArrayList<Order> result = new ArrayList<>();
-        String[] arrProducts = products.split(",");
-        String productsQuantity = "---";
-        String[] arrProductsQuantity = productsQuantity.split(",");
-        int index = binarySearch.search(orders, byProductsOrder, new Order("---", arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
-        if (index != -1) {
-            // Add the order at the found index to the result list
-            result.add(orders.get(index));
-            // Search for any other orders with the same products order that appear before the found index
-            int leftIndex = index - 1;
-            while (leftIndex >= 0 && byProductsOrder.compare(orders.get(leftIndex), result.get(0)) == 0) {
-                result.add(0, orders.get(leftIndex));
-                leftIndex--;
-            }
-            // Search for any other orders with the same products order that appear after the found index
-            int rightIndex = index + 1;
-            while (rightIndex < orders.size() && byProductsOrder.compare(orders.get(rightIndex), result.get(result.size() - 1)) == 0) {
-                result.add(orders.get(rightIndex));
-                rightIndex++;
-            }
-        }
-        return result;
-    }*/
 }
