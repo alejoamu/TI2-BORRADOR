@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import exceptions.EmptyFileException;
+import exceptions.NegativeNumberException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -87,6 +88,9 @@ public class OrderList {
             }
         } else if (option == 2) {
             for (int i = 0; i < orders.size(); i++) {
+                if(Double.parseDouble(data) < 0) { // Se implementó hice para hacer el test del precio negativo
+                    throw new NegativeNumberException();
+                }
                 if (orders.get(i).getTotalPrice() == Double.parseDouble(data)) {
                     msg = "Buyer: " + orders.get(i).getBuyerName() + " Products list: " + orders.get(i).getProductsOrder() + " Total price: " + orders.get(i).getTotalPrice() + " Purchase date: " + orders.get(i).getPurchasedDate();
                     return msg;

@@ -2,6 +2,7 @@ package model;
 
 import exceptions.IncompleteDataException;
 import exceptions.NegativeNumberException;
+import exceptions.QuantityExceededException;
 
 public class Product {
 
@@ -37,6 +38,9 @@ public class Product {
     public void subtractQuantityAvailable(int quantity2Subtract){
         if(quantity2Subtract < 0){
             throw new NegativeNumberException();
+        }
+        if(quantity2Subtract > quantityAvailable) {
+            throw new QuantityExceededException();
         }
         quantityAvailable -= quantity2Subtract;
     }

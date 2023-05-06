@@ -97,7 +97,7 @@ public class ProductList {
         switch (option) {
             case 1:
                 Product product = searchProductByName(data);
-                if (product != null)
+                if (product != null) // Falta tirar esa excepción cuando no lo encuentra
                     msg = new StringBuilder(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", product.getProductName(), product.getDescription(), product.getPrice(), product.getQuantityAvailable(), product.getCategory(), product.getPurchasedNumber())).append("\n");
                 break;
             case 2:

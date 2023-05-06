@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.NegativeNumberException;
+import exceptions.QuantityExceededException;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +13,7 @@ public class ProductTest {
     }
 
     @Test
-    public void ProductTest(){
+    public void ProductTest() {
         //Act
         Product product = new Product("PS5", "Videogame", 2000000.0, 4, Category.TOYS_AND_GAMES, 2);
 
@@ -62,7 +63,6 @@ public class ProductTest {
         //Arrange
         setupStage1();
 
-
         //Act - Assert
         assertThrows(NegativeNumberException.class, () ->{
             product.addQuantityAvailable(-4);
@@ -91,5 +91,18 @@ public class ProductTest {
             product.subtractQuantityAvailable(-4);
         });
     }
+
+    @Test
+    public void subtractMoreThanAllowedQuantity() {
+        // Arrange
+        setupStage1();
+
+        // Act - Assert
+        assertThrows(QuantityExceededException.class, () -> {
+            product.subtractQuantityAvailable(7);
+        });
+    }
+
+
 
 }
