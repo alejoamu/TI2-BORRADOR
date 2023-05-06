@@ -112,10 +112,6 @@ public class Controller {
         productList.DeleteProduct(productName);
     }
 
-    public String deleteOrder(String buyerName) throws IOException {
-        return orderList.deleteOrder(buyerName);
-    }
-
     public void changeProductQuantity(String product, int newQuantity) throws IOException {
         productList.changeQuantity(product, newQuantity);
     }

@@ -89,7 +89,7 @@ public class OrderList {
             case 1:
                 Order order = searchOrderByBuyerName(data);
                 if (order != null)
-                    msg = new StringBuilder(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", order.getBuyerName(), order.getProductsOrder(), order.getTotalPrice(), order.getProductsQuantity(), order.getPurchasedDate())).append("\n");
+                    msg = new StringBuilder(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %s purchasedDate: %s ", order.getBuyerName(), Arrays.toString(order.getProductsOrder()), order.getTotalPrice(), Arrays.toString(order.getProductsQuantity()), order.getPurchasedDate())).append("\n");
                 break;
             case 2:
                 double price = -1;
@@ -100,14 +100,14 @@ public class OrderList {
                 }
                 ArrayList<Order> ordersFoundPrice = searchOrderByTotalPrice(price);
                 for (Order o : ordersFoundPrice) {
-                    msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
+                    msg = new StringBuilder(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %s purchasedDate: %s ", o.getBuyerName(), Arrays.toString(o.getProductsOrder()), o.getTotalPrice(), Arrays.toString(o.getProductsQuantity()), o.getPurchasedDate())).append("\n");
                 }
                 break;
             case 3:
                 LocalDate localDate = LocalDate.parse(data);
                 ArrayList<Order> ordersByDate = searchProductByPurchasedDate(localDate);
                 for (Order o : ordersByDate) {
-                    msg.append(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %d purchasedDate: %s ", o.getBuyerName(), o.getProductsOrder(), o.getTotalPrice(), o.getProductsQuantity(), o.getPurchasedDate())).append("\n");
+                    msg = new StringBuilder(String.format("BuyerName: %s ProductsOrder: %s TotalPrice: %.2f products Quantity: %s purchasedDate: %s ", o.getBuyerName(), Arrays.toString(o.getProductsOrder()), o.getTotalPrice(), Arrays.toString(o.getProductsQuantity()), o.getPurchasedDate())).append("\n");
                 }
                 break;
             case 4:
@@ -118,18 +118,6 @@ public class OrderList {
             return Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET;
         }
         return msg.toString();
-    }
-
-    public String deleteOrder(String buyName) throws IOException { //Eliminar la orden
-        String msg = "The order doesn't exist in the list";
-        for (int i = 0; i < orders.size(); i++) {
-            if (orders.get(i).getBuyerName().equals(buyName)) {
-                orders.set(i, null);
-                save();
-                msg = "Order deleted successfully";
-            }
-        }
-        return msg;
     }
 
     public Order searchOrderByBuyerName(String buyerName) {
@@ -149,7 +137,7 @@ public class OrderList {
 
     public ArrayList<Order> searchOrderByTotalPrice(double price) {
         // Sort by price ascending
-        Comparator<Order> byPrice = (p1, p2) -> Double.compare(p1.getTotalPrice(), p2.getTotalPrice());
+        Comparator<Order> byPrice = (o1, o2) -> Double.compare(o1.getTotalPrice(), o2.getTotalPrice());
         orders.sort(byPrice);
         // Search for orders with the specified price using binary search
         ArrayList<Order> result = new ArrayList<>();
@@ -158,7 +146,7 @@ public class OrderList {
         String productsQuantity = "---";
         String[] arrProductsQuantity = productsQuantity.split(",");
 
-        int index = binarySearch.search(orders, byPrice, new Order("---", arrProducts, arrProductsQuantity, Integer.MAX_VALUE, LocalDate.MAX), 0, orders.size() - 1);
+        int index = binarySearch.search(orders, byPrice, new Order("---", arrProducts, arrProductsQuantity, price, LocalDate.MAX), 0, orders.size() - 1);
         if (index != -1) {
             // Add the order at the found index to the result list
             result.add(orders.get(index));
@@ -180,7 +168,7 @@ public class OrderList {
 
     public ArrayList<Order> searchProductByPurchasedDate(LocalDate date) {
         // Sort by purchase date ascending
-        Comparator<Order> byDate = (p1, p2) -> p1.getPurchasedDate().compareTo(p2.getPurchasedDate());
+        Comparator<Order> byDate = (o1, o2) -> o1.getPurchasedDate().compareTo(o2.getPurchasedDate());
         orders.sort(byDate);
         // Search for orders with the specified category using binary search
         ArrayList<Order> result = new ArrayList<>();

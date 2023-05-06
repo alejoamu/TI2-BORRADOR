@@ -179,7 +179,6 @@ public class Main {
                     case 2:
                         // Delete order
                         controller.loadOrderList();
-                        deleteOrder();
                         stopFlag = true;
                         break;
                     case 3:
@@ -430,15 +429,6 @@ public class Main {
         System.out.println("Please enter the name of the product to delete");
         String productName = sc.nextLine();
         controller.deleteProduct(productName);
-    }
-
-    private void deleteOrder() throws IOException {
-        controller.loadOrderList();
-        controller.showOrderList();
-        System.out.println("Please enter the buyer name of the order to delete");
-        String buyerName = sc.nextLine();
-        System.out.println(controller.deleteOrder(buyerName));
-
     }
 
     public void changeQuantity() throws IOException {
