@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class BinarySearch<T> {
@@ -69,6 +70,44 @@ public class BinarySearch<T> {
             }
         }
         return result;
+    }
+
+    public ArrayList<T> searchRangeOrInterval(ArrayList<T> list, Comparator<T> comparator, T minValue, T maxValue, int lowIndex, int highIndex) {
+        if (lowIndex > highIndex) {
+            // If we've narrowed the search down to one element, and it doesn't match, return an empty list
+            return null;
+        }
+
+        // Find the middle index of the current range
+        int midIndex = (lowIndex + highIndex) / 2;
+        T midValue = list.get(midIndex);
+
+        // Use the comparator function to compare the target value to the middle value
+        int compareMin = comparator.compare(midValue, minValue);
+        int compareMax = comparator.compare(midValue, maxValue);
+
+        if (compareMin < 0) {
+            // If the middle value is less than the minimum value, search the right half of the range
+            return searchRangeOrInterval(list, comparator, minValue, maxValue, midIndex + 1, highIndex);
+        } else if (compareMax > 0) {
+            // If the middle value is greater than the maximum value, search the left half of the range
+            return searchRangeOrInterval(list, comparator, minValue, maxValue, lowIndex, midIndex - 1);
+        } else {
+            // If the middle value is within the specified range, recursively search both halves of the range
+            ArrayList<T> results = new ArrayList<>();
+            int left = midIndex;
+            while (left > lowIndex && comparator.compare(list.get(left - 1), minValue) >= 0) {
+                left--;
+            }
+            int right = midIndex;
+            while (right < highIndex && comparator.compare(list.get(right + 1), maxValue) <= 0) {
+                right++;
+            }
+            for (int i = left; i < right + 1; i++) {
+                results.add(list.get(i));
+            }
+            return results;
+        }
     }
 
 

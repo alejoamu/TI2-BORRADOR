@@ -162,19 +162,24 @@ public class ProductList {
         return binarySearch.searchObjectsByProperty(products, byPurchasedNumber, new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, purchasedNumber));
     }
 
-    //----------------------------------------------------------------
-
     public String searchProduct(int option, String minData, String maxData) {
         StringBuilder msg = new StringBuilder();
         switch (option) {
             case 1:
-                /*Product product = searchProductByName(data);
-                if (product != null)
-                    msg = new StringBuilder(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", product.getProductName(), product.getDescription(), product.getPrice(), product.getQuantityAvailable(), product.getCategory(), product.getPurchasedNumber())).append("\n");
-                */
+                ArrayList<Product> productsFoundName;
+                if (minData.compareTo(maxData) < 0) {
+                    productsFoundName = searchProductByName(minData, maxData);
+                } else if (minData.compareTo(maxData) > 0) {
+                    productsFoundName = searchProductByName(maxData, minData);
+                } else {
+                    return Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET;
+                }
+                for (Product p : productsFoundName) {
+                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
+                }
                 break;
             case 2:
-                double priceMin = -1, priceMax = -1;
+                double priceMin, priceMax;
                 try {
                     priceMin = Double.parseDouble(minData);
                     priceMax = Double.parseDouble(maxData);
@@ -193,23 +198,25 @@ public class ProductList {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
                 break;
-            case 3:
-                /*ArrayList<Product> productsFoundCategory = searchProductByCategory(Category.values()[Integer.parseInt(data)]);
-                for (Product p : productsFoundCategory) {
-                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
-                }*/
-                break;
-            case 4:/*
-                int purchasedNumber = -1;
+            case 4:
+                int minPurchasedNumber, maxPurchasedNumber;
                 try {
-                    purchasedNumber = Integer.parseInt(data);
+                    minPurchasedNumber = Integer.parseInt(minData);
+                    maxPurchasedNumber = Integer.parseInt(maxData);
                 } catch (NumberFormatException ex) {
                     throw new IncompleteDataException();
                 }
-                ArrayList<Product> productsFoundPurchasedNumber = searchProductByPurchasedNumber(purchasedNumber);
+                ArrayList<Product> productsFoundPurchasedNumber;
+                if (minPurchasedNumber < maxPurchasedNumber) {
+                    productsFoundPurchasedNumber = searchProductByPurchasedNumber(minPurchasedNumber, maxPurchasedNumber);
+                } else if (minPurchasedNumber > maxPurchasedNumber) {
+                    productsFoundPurchasedNumber = searchProductByPurchasedNumber(maxPurchasedNumber, minPurchasedNumber);
+                } else {
+                    productsFoundPurchasedNumber = searchProductByPurchasedNumber(maxPurchasedNumber);
+                }
                 for (Product p : productsFoundPurchasedNumber) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
-                }*/
+                }
                 break;
         }
         if (msg.length() == 0) {
@@ -218,24 +225,28 @@ public class ProductList {
         return msg.toString();
     }
 
+    public ArrayList<Product> searchProductByName(String initialPrefix, String finalPrefix) {
+        // Sort by name ascending
+        Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
+        products.sort(byName);
+        // Search for products within the specified name interval using binary search
+        return binarySearch.searchRangeOrInterval(products, byName, new Product(initialPrefix, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), new Product(finalPrefix, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+    }
+
     public ArrayList<Product> searchProductByPrice(double minPrice, double maxPrice) {
         // Sort by price ascending
         Comparator<Product> byPrice = (p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice());
         products.sort(byPrice);
         // Search for products within the specified price range using binary search
-        ArrayList<Product> result = new ArrayList<>();
-        int startIndex = binarySearch.search(products, byPrice, new Product("---", "---", minPrice, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
-        if (startIndex != -1) {
-            // Search for any products whose price is equal to or greater than the minimum price
-            int currentIndex = startIndex;
-            while (currentIndex < products.size() && products.get(currentIndex).getPrice() <= maxPrice) {
-                if (products.get(currentIndex).getPrice() >= minPrice) {
-                    result.add(products.get(currentIndex));
-                }
-                currentIndex++;
-            }
-        }
-        return result;
+        return binarySearch.searchRangeOrInterval(products, byPrice, new Product("---", "---", minPrice, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), new Product("---", "---", maxPrice, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+    }
+
+    public ArrayList<Product> searchProductByPurchasedNumber(int minPurchasedNumber, int maxPurchasedNumber) {
+        // Sort by purchased number ascending
+        Comparator<Product> byPurchasedNumber = (p1, p2) -> Integer.compare(p1.getPurchasedNumber(), p2.getPurchasedNumber());
+        products.sort(byPurchasedNumber);
+        // Search for products within the specified price range using binary search
+        return binarySearch.searchRangeOrInterval(products, byPurchasedNumber, new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, minPurchasedNumber), new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, maxPurchasedNumber), 0, products.size() - 1);
     }
 
 

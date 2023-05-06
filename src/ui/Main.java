@@ -220,17 +220,18 @@ public class Main {
                     Color.BOLD + Color.YELLOW + "\n[2]" + Color.RESET + " Search by price" +
                     Color.BOLD + Color.YELLOW + "\n[3]" + Color.RESET + " search by category" +
                     Color.BOLD + Color.YELLOW + "\n[4]" + Color.RESET + " Search by number of times purchased" +
-                    Color.BOLD + Color.YELLOW + "\n[5]" + Color.RESET + " Return to the main menu");
+                    Color.BOLD + Color.YELLOW + "\n[5]" + Color.RESET + " Search by quantity available" +
+                    Color.BOLD + Color.YELLOW + "\n[6]" + Color.RESET + " Return to the main menu");
             try {
                 // Read user input from console
                 System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
                 int option = sc.nextInt();
                 int optionSubmenu = 0;
+                controller.loadProductList();
 
                 // Determine action based on user input
                 switch (option) {
                     case 1:
-                        controller.loadProductList();
                         do {
                             // Display submenu options
                             System.out.println(Color.BOLD + Color.UNDERLINE + "\tSEARCH METHOD:" + Color.RESET +
@@ -259,6 +260,13 @@ public class Main {
                                     break;
                                 case 2:
                                     // Search by name interval
+                                    System.out.print(Color.BOLD + Color.YELLOW + "Initial prefix: " + Color.RESET);
+                                    String initialPrefix = sc.nextLine();
+                                    System.out.print(Color.BOLD + Color.YELLOW + "Final prefix: " + Color.RESET);
+                                    String finalPrefix = sc.nextLine();
+                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    System.out.print(controller.searchProduct(option, initialPrefix, finalPrefix));
+                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     break;
                                 default:
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
@@ -270,7 +278,6 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 2:
-                        controller.loadProductList();
                         do {
                             // Display submenu options
                             System.out.println(Color.BOLD + Color.UNDERLINE + "\tSEARCH METHOD:" + Color.RESET +
@@ -327,7 +334,6 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 3:
-                        controller.loadProductList();
                         // Search by category
                         int categoryIndex = -1;
                         sc.nextLine();
@@ -349,7 +355,6 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 4:
-                        controller.loadProductList();
                         do {
                             // Display submenu options
                             System.out.println(Color.BOLD + Color.UNDERLINE + "\tSEARCH METHOD:" + Color.RESET +
@@ -383,6 +388,18 @@ public class Main {
                                     break;
                                 case 2:
                                     // Search by number of times purchased range
+                                    try {
+                                        System.out.print(Color.BOLD + Color.YELLOW + "Minimal purchased number: " + Color.RESET);
+                                        String minPurchasedNumber = sc.nextLine();
+                                        System.out.print(Color.BOLD + Color.YELLOW + "Maximum purchased number: " + Color.RESET);
+                                        String maxPurchasedNumber = sc.nextLine();
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                        System.out.print(controller.searchProduct(option, minPurchasedNumber, maxPurchasedNumber));
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    } catch (IncompleteDataException ex) {
+                                        System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    }
                                     break;
                                 default:
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
