@@ -266,15 +266,19 @@ public class ProductList {
         Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
         products.sort(byName);
 
+        // Convert initialPrefix and finalPrefix to lowercase
+        initialPrefix = initialPrefix.toLowerCase();
+        finalPrefix = finalPrefix.toLowerCase();
+
         // Convert finalPrefix to ASCII and increment by 1
         int asciiValue = (int) finalPrefix.charAt(0);
         asciiValue += 1;
 
         // Convert back to String
-        String newFinalPrefix = String.valueOf((char) asciiValue);
+        finalPrefix = String.valueOf((char) asciiValue);
 
         // Search for products within the specified name interval using binary search
-        return binarySearch.searchRangeOrInterval(products, byName, new Product(initialPrefix, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), new Product(newFinalPrefix, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+        return binarySearch.searchRangeOrInterval(products, byName, new Product(initialPrefix, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), new Product(finalPrefix, "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
     }
 
     public ArrayList<Product> searchProductByPrice(double minPrice, double maxPrice) {
