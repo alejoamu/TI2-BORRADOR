@@ -43,9 +43,6 @@ public class OrderListTest {
         orderList.getOrders().add(order3);
     }
 
-    // FALTANTES: En el añadir, el arreglo es de cantidad de productos es de Strings, se valida que no se ingresen
-    // números negativos?
-
     @Test
     public void addOrderTest() {
         // Arrange
@@ -69,8 +66,6 @@ public class OrderListTest {
         });
         assertEquals(orderList.getOrders().size(), 0);
     }
-
-    // El del formato no se valida, ya que debe ser automático
 
     @Test
     public void searchOrderByBuyerName() {
