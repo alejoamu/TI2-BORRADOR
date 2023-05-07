@@ -500,10 +500,7 @@ public class Main {
                 sortVariable = Integer.parseInt(sc.nextLine());
             } while (sortVariable < 1 || sortVariable > 5);
             result[1] = sortVariable;
-        } catch (IncompleteDataException  ex) {
-            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
-            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        } catch (IncompleteDataException | NumberFormatException  ignored) {
         }
         return result;
     }
@@ -536,10 +533,7 @@ public class Main {
                 sortVariable = Integer.parseInt(sc.nextLine());
             } while (sortVariable < 1 || sortVariable > 3);
             result[1] = sortVariable;
-        } catch (IncompleteDataException  ex) {
-            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
-            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        } catch (IncompleteDataException | NumberFormatException  ignored) {
         }
         return result;
     }

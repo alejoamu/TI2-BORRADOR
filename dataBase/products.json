@@ -8,6 +8,14 @@
     "purchasedNumber": 7
   },
   {
+    "productName": "ZZZZZ",
+    "description": "Hours of Fun with Friends",
+    "price": 39.99,
+    "quantityAvailable": 12,
+    "category": "TOYS_AND_GAMES",
+    "purchasedNumber": 7
+  },
+  {
     "productName": "Facial Cleanser",
     "description": "Gentle and Effective",
     "price": 14.99,
