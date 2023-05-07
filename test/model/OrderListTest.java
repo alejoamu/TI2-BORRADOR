@@ -15,9 +15,9 @@ public class OrderListTest {
     LocalDate date1 = LocalDate.of(2023, 4, 5);
     LocalDate date2 = LocalDate.of(2023, 4, 12);
     LocalDate date3 = LocalDate.of(2023, 4, 5);
-    Order order1 = new Order("Santiago", "PS5, PSP, Audífonos", 2000000.0, date1);
-    Order order2 = new Order("James", "Camiseta, Pantaloneta, Guayos", 250000.0, date2);
-    Order order3 = new Order("Luis", "XBOX, Mando inalámbrico, Audífonos", 3000000.0, date3);
+    //Order order1 = new Order("Santiago", "PS5, PSP, Audífonos", 2000000.0, date1);
+    //Order order2 = new Order("James", "Camiseta, Pantaloneta, Guayos", 250000.0, date2);
+    //Order order3 = new Order("Luis", "XBOX, Mando inalámbrico, Audífonos", 3000000.0, date3);
 
     public void setupStage1() {orderList = new OrderList();}
 
@@ -29,9 +29,9 @@ public class OrderListTest {
 
     public void setupStage3() {
         orderList = new OrderList();
-        orderList.getOrders().add(order1);
-        orderList.getOrders().add(order2);
-        orderList.getOrders().add(order3);
+        //orderList.getOrders().add(order1);
+       // orderList.getOrders().add(order2);
+     //   orderList.getOrders().add(order3);
     }
 
     // FALTANTES: En el añadir, falta tener en cuenta la cantidad de cada producto
@@ -42,7 +42,7 @@ public class OrderListTest {
         // Arrange
         setupStage1();
         // Act
-        orderList.getOrders().add(order2);
+       // orderList.getOrders().add(order2);
         // Assert
         assertEquals(orderList.getOrders().size(), 1);
     }
@@ -53,7 +53,7 @@ public class OrderListTest {
         setupStage1();
         // Act - Assert
         assertThrows(NegativeNumberException.class, () -> {
-            orderList.getOrders().add(new Order("James", "Camiseta, Pantaloneta, Guayos", -250000.0, date2));
+        //    orderList.getOrders().add(new Order("James", "Camiseta, Pantaloneta, Guayos", -250000.0, date2));
         });
         assertEquals(orderList.getOrders().size(), 0);
     }

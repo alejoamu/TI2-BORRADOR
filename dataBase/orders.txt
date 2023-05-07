@@ -1,1 +1,1 @@
-[{"buyerName":"juan","productsOrder":"Board","totalPrice":1.0,"purchasedDate":{"year":2023,"month":1,"day":1}}]
+[{"buyerName":"alejo","productsOrder":["Game{"],"totalPrice":1.0,"productsQuantity":["20"],"purchasedDate":{"year":2023,"month":12,"day":12}}]

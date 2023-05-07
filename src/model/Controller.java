@@ -73,22 +73,63 @@ public class Controller {
 
     public void addOrder(String[] data) throws IOException {
         try {
-            System.out.println(Arrays.toString(data));
+            String[] arrProducts = data[1].split(",");
+            String[] arrProductsQuantity = data[2].split(",");
             String[] arrDate = data[4].split("-");
             LocalDate date = LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
-            orderList.getOrders().add(
-                    new Order(data[0], data[1], Double.parseDouble(data[2]), date)
-            );
-            orderList.save();
+
+            Order newOrder = new Order(data[0], arrProducts, arrProductsQuantity, Integer.parseInt(data[3]), date);
+            if (orderList.searchOrderByBuyerName(newOrder.getBuyerName()) != null) {
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                System.out.println(Color.BOLD + Color.YELLOW + "                ORDER WAS ALREADY REGISTERED                 " + Color.RESET);
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            } else {
+                if (arrProducts.length != arrProductsQuantity.length) {
+                    if (arrProducts.length > arrProductsQuantity.length) {
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.println(Color.BOLD + Color.YELLOW + "                A PRODUCT IN THE ORDER DOES NOT HAVE A PRICE                  " + Color.RESET);
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                    } else if (arrProducts.length < arrProductsQuantity.length) {
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.println(Color.BOLD + Color.YELLOW + "                THERE IS A PRICE FOR A NON-EXISTENT PRODUCT                  " + Color.RESET);
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                    }
+                    return;
+                }
+                for (int i = 0; i < arrProducts.length; i++) {
+                    if (productList.searchProductByName(arrProducts[i]) == null) {
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.println(Color.BOLD + Color.YELLOW + "                A PRODUCT IN THE ORDER DOES NOT EXIST                  " + Color.RESET);
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        return;
+                    }
+                }
+                //Decreases the available quantity of the product
+                for (int j = 0; j < arrProducts.length; j++) {
+                    Product product = productList.searchProductByName(arrProducts[j]);
+                    for (int k = 0; k < arrProductsQuantity.length; k++) {
+                        if (product.getQuantityAvailable() >= Integer.parseInt(arrProductsQuantity[k])) {
+                            product.subtractQuantityAvailable(Integer.parseInt(arrProductsQuantity[k]));
+                        } else {
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            System.out.println(Color.BOLD + Color.YELLOW + "        NOT ENOUGH QUANTITIES AVAILABLE FOR ONE PRODUCT                   " + Color.RESET);
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            return;
+                        }
+                    }
+                }
+                orderList.getOrders().add(newOrder);
+                orderList.save();
+                productList.save();
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                System.out.println(Color.BOLD + Color.YELLOW + "                  ORDER SUCCESSFULLY ADDED                   " + Color.RESET);
+                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            }
         } catch (ArrayIndexOutOfBoundsException ex) {
             throw new IncompleteDataException();
         } catch (NumberFormatException ex) {
             throw new DateFormatException();
         }
-    }
-
-    public String deleteOrder(String buyerName) throws IOException {
-        return orderList.deleteOrder(buyerName);
     }
 
     public String searchProduct(int option, String data, int sortingType, int sortingVariable) {
