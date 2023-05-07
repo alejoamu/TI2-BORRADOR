@@ -11,20 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OrderTest {
 
-    LocalDate date = null;
+    LocalDate date = LocalDate.of(2023, 4, 5);
     String[] products1 = {"PS5", "PSP", "Audífonos"};
 
     String[] productsQuantity1 = {"2", "3", "2"};
 
-    public void setupStage1() {
-        date = LocalDate.of(2023, 04, 05);
-    }
 
     @Test
     public void OrderTest() {
-        //Arrange
-        setupStage1();
-
         //Act
         Order order = new Order("Santiago", products1, productsQuantity1,2000000, date);
 
@@ -34,9 +28,6 @@ public class OrderTest {
 
     @Test
     public void NegativePriceTest() {
-        //Arrange
-        setupStage1();
-
         //Act - Assert
         assertThrows(NegativeNumberException.class, () -> {
             Order order = new Order("Santiago", products1, productsQuantity1,-2000000, date);

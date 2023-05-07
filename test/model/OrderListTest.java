@@ -43,8 +43,8 @@ public class OrderListTest {
         orderList.getOrders().add(order3);
     }
 
-    // FALTANTES: En el añadir, falta tener en cuenta la cantidad de cada producto
-    // La fecha de la orden, creo que debe ser manual, no automática
+    // FALTANTES: En el añadir, el arreglo es de cantidad de productos es de Strings, se valida que no se ingresen
+    // números negativos?
 
     @Test
     public void addOrderTest() {

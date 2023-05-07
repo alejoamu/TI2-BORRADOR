@@ -1,6 +1,5 @@
 package model;
 
-import color.Color;
 import exceptions.NegativeNumberException;
 import org.junit.Test;
 
@@ -83,7 +82,7 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchProductByName() {
+    public void searchProductByExactNameTest() {
         // Arrange
         setupStage3();
 
@@ -92,16 +91,19 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchProductByNameNotFoundTest() {
+    public void searchProductByExactNameNotFoundTest() {
         // Arrange
         setupStage3();
 
-        // Act - Assert
-        assertEquals(productList.searchProduct(1, " ",  0, 0), Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET);
+        // Act
+        String result = productList.searchProduct(1, " ",  0, 0);
+
+        // Assert
+        assertTrue(result.contains("NO PRODUCT HAS THAT CHARACTERISTIC"));
     }
 
     @Test
-    public void searchProductByPriceTest() {
+    public void searchProductByExactPriceTest() {
         // Arrange
         setupStage3();
         ArrayList<Product> result = new ArrayList<>();
@@ -123,7 +125,7 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchProductByCategoryTest() {
+    public void searchProductByExactCategoryTest() {
         // Arrange
         setupStage3();
         ArrayList<Product> result = new ArrayList<>();
@@ -135,7 +137,7 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchProductListByPurchasedNumberTest() {
+    public void searchProductListByExactPurchasedNumberTest() {
         // Arrange
         setupStage3();
         ArrayList<Product> result = new ArrayList<>();
@@ -155,4 +157,55 @@ public class ProductListTest {
             productList.searchProductByPurchasedNumber(-5);
         });
     }
+
+    @Test
+    public void searchProductByIntervalName() {
+        // Arrange
+        setupStage3();
+        ArrayList<Product> result = new ArrayList<>();
+        result.add(product3);
+        result.add(product5);
+
+        // Act - Assert
+        assertEquals(productList.searchProductByName("A", "C"), result);
+    }
+
+    @Test
+    public void searchProductByWrongIntervalName() {
+        // Arrange
+        setupStage3();
+
+        // Act - Assert
+        assertEquals(productList.searchProductByName("1", "?"), null);
+    }
+
+    @Test
+    public void searchMultipleProductsByIntervalName() {
+        // Arrange
+        setupStage3();
+        ArrayList<Product> result = new ArrayList<>();
+        result.add(product5);
+        result.add(product3);
+        result.add(product2);
+        result.add(product1);
+        result.add(product4);
+
+        // Act - Assert
+        assertEquals(productList.searchProductByName("A", "Z"), result);
+    }
+
+    @Test
+    public void searchProductByRangePrince() {
+        // Arrange
+        setupStage3();
+        ArrayList<Product> result = new ArrayList<>();
+        result.add(product1);
+        result.add(product4);
+
+        // Act - Assert
+        assertEquals(productList.searchProductByPrice(1000000, 2500000), result);
+    }
+
+//    @Test
+//    public void searchProductByRange
 }
