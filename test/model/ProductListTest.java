@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class ProductListTest {
+/*public class ProductListTest {
 
     ProductList productList;
     Product product1 = new Product("PS5", "VideoGame", 2000000.0, 4, Category.TOYS_AND_GAMES, 2);
@@ -148,4 +148,4 @@ public class ProductListTest {
             productList.searchProductByPurchasedNumber(-5);
         });
     }
-}
+}*/

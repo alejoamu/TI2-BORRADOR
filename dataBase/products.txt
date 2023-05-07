@@ -74,7 +74,7 @@
  {
   "productName": "Mug",
   "description": "Cute and Quirky Designs",
-  "price": 49.99,
+  "price": 12.99,
   "quantityAvailable": 25,
   "category": "CLOTHING_AND_ACCESSORIES",
   "purchasedNumber": 9

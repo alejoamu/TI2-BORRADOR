@@ -83,7 +83,7 @@ public class ProductList {
         }
     }
 
-    public String searchProduct(int option, String data) {
+    public String searchProduct(int option, String data, int sortingType, int sortingVariable) {
         StringBuilder msg = new StringBuilder();
         switch (option) {
             case 1:
@@ -99,12 +99,14 @@ public class ProductList {
                     throw new IncompleteDataException();
                 }
                 ArrayList<Product> productsFoundPrice = searchProductByPrice(price);
+                sortingResults(productsFoundPrice, sortingType, sortingVariable);
                 for (Product p : productsFoundPrice) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
                 break;
             case 3:
                 ArrayList<Product> productsFoundCategory = searchProductByCategory(Category.values()[Integer.parseInt(data)]);
+                sortingResults(productsFoundCategory, sortingType, sortingVariable);
                 for (Product p : productsFoundCategory) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
@@ -117,6 +119,7 @@ public class ProductList {
                     throw new IncompleteDataException();
                 }
                 ArrayList<Product> productsFoundPurchasedNumber = searchProductByPurchasedNumber(purchasedNumber);
+                sortingResults(productsFoundPurchasedNumber, sortingType, sortingVariable);
                 for (Product p : productsFoundPurchasedNumber) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
@@ -162,7 +165,15 @@ public class ProductList {
         return binarySearch.searchObjectsByProperty(products, byPurchasedNumber, new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, purchasedNumber));
     }
 
-    public String searchProduct(int option, String minData, String maxData) {
+    public ArrayList<Product> searchProductByQuantityAvailable(int quantityAvailable) {
+        // Sort by quantity available ascending
+        Comparator<Product> byQuantityAvailable = (p1, p2) -> Integer.compare(p1.getQuantityAvailable(), p2.getQuantityAvailable());
+        products.sort(byQuantityAvailable);
+        // Search for products within the specified quantity available range using binary search
+        return binarySearch.searchObjectsByProperty(products, byQuantityAvailable, new Product("---", "---", Double.MAX_VALUE, quantityAvailable, Category.BOOKS, Integer.MAX_VALUE));
+    }
+
+    public String searchProduct(int option, String minData, String maxData, int sortingType, int sortingVariable) {
         StringBuilder msg = new StringBuilder();
         switch (option) {
             case 1:
@@ -174,6 +185,7 @@ public class ProductList {
                 } else {
                     return Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET;
                 }
+                sortingResults(productsFoundName, sortingType, sortingVariable);
                 for (Product p : productsFoundName) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
@@ -194,6 +206,7 @@ public class ProductList {
                 } else {
                     productsFoundPrice = searchProductByPrice(priceMax);
                 }
+                sortingResults(productsFoundPrice, sortingType, sortingVariable);
                 for (Product p : productsFoundPrice) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
@@ -214,7 +227,29 @@ public class ProductList {
                 } else {
                     productsFoundPurchasedNumber = searchProductByPurchasedNumber(maxPurchasedNumber);
                 }
+                sortingResults(productsFoundPurchasedNumber, sortingType, sortingVariable);
                 for (Product p : productsFoundPurchasedNumber) {
+                    msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
+                }
+                break;
+            case 5:
+                int minQuantityAvailable, maxQuantityAvailable;
+                try {
+                    minQuantityAvailable = Integer.parseInt(minData);
+                    maxQuantityAvailable = Integer.parseInt(maxData);
+                } catch (NumberFormatException ex) {
+                    throw new IncompleteDataException();
+                }
+                ArrayList<Product> productsFoundQuantityAvailable;
+                if (minQuantityAvailable < maxQuantityAvailable) {
+                    productsFoundQuantityAvailable = searchProductByQuantityAvailable(minQuantityAvailable, maxQuantityAvailable);
+                } else if (minQuantityAvailable > maxQuantityAvailable) {
+                    productsFoundQuantityAvailable = searchProductByQuantityAvailable(maxQuantityAvailable, minQuantityAvailable);
+                } else {
+                    productsFoundQuantityAvailable = searchProductByQuantityAvailable(maxQuantityAvailable);
+                }
+                sortingResults(productsFoundQuantityAvailable, sortingType, sortingVariable);
+                for (Product p : productsFoundQuantityAvailable) {
                     msg.append(String.format("Product: %s Description: %s Price: %.2f Quantity Available: %d Category: %s Purchased Number: %d", p.getProductName(), p.getDescription(), p.getPrice(), p.getQuantityAvailable(), p.getCategory(), p.getPurchasedNumber())).append("\n");
                 }
                 break;
@@ -245,21 +280,66 @@ public class ProductList {
         // Sort by purchased number ascending
         Comparator<Product> byPurchasedNumber = (p1, p2) -> Integer.compare(p1.getPurchasedNumber(), p2.getPurchasedNumber());
         products.sort(byPurchasedNumber);
-        // Search for products within the specified price range using binary search
+        // Search for products within the specified purchased number range using binary search
         return binarySearch.searchRangeOrInterval(products, byPurchasedNumber, new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, minPurchasedNumber), new Product("---", "---", Double.MAX_VALUE, Integer.MAX_VALUE, Category.BOOKS, maxPurchasedNumber), 0, products.size() - 1);
     }
 
+    public ArrayList<Product> searchProductByQuantityAvailable(int minQuantityAvailable, int maxQuantityAvailable) {
+        // Sort by quantity available ascending
+        Comparator<Product> byQuantityAvailable = (p1, p2) -> Integer.compare(p1.getQuantityAvailable(), p2.getQuantityAvailable());
+        products.sort(byQuantityAvailable);
+        // Search for products within the specified quantity available range using binary search
+        return binarySearch.searchRangeOrInterval(products, byQuantityAvailable, new Product("---", "---", Double.MAX_VALUE, minQuantityAvailable, Category.BOOKS, Integer.MAX_VALUE), new Product("---", "---", Double.MAX_VALUE, maxQuantityAvailable, Category.BOOKS, Integer.MAX_VALUE), 0, products.size() - 1);
+    }
 
-    public void DeleteProduct(String proName) throws IOException { //Elimina el producto
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getProductName().equals(proName)) {
-                products.set(i, null);
-                save();
-                System.out.println("Product deleted successfully");
-                return;
-            }
+    public void sortingResults(ArrayList<Product> list, int sortingType, int sortingVariable) {
+        switch (sortingVariable) {
+            case 1:
+                if (sortingType == 1) {
+                    Comparator<Product> byName = (p1, p2) -> p1.getProductName().compareToIgnoreCase(p2.getProductName());
+                    list.sort(byName);
+                } else {
+                    Comparator<Product> byNameDesc = (p1, p2) -> p2.getProductName().compareToIgnoreCase(p1.getProductName());
+                    list.sort(byNameDesc);
+                }
+                break;
+            case 2:
+                if (sortingType == 1) {
+                    Comparator<Product> byPrice = (p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice());
+                    list.sort(byPrice);
+                } else {
+                    Comparator<Product> byPriceDesc = (p1, p2) -> Double.compare(p2.getPrice(), p1.getPrice());
+                    list.sort(byPriceDesc);
+                }
+                break;
+            case 3:
+                if (sortingType == 1) {
+                    Comparator<Product> byQuantityAvailable = (p1, p2) -> Integer.compare(p1.getQuantityAvailable(), p2.getQuantityAvailable());
+                    list.sort(byQuantityAvailable);
+                } else {
+                    Comparator<Product> byQuantityAvailableDesc = (p1, p2) -> Integer.compare(p2.getQuantityAvailable(), p1.getQuantityAvailable());
+                    list.sort(byQuantityAvailableDesc);
+                }
+                break;
+            case 4:
+                if (sortingType == 1) {
+                    Comparator<Product> byCategory = (p1, p2) -> p1.getCategory().compareTo(p2.getCategory());
+                    list.sort(byCategory);
+                } else {
+                    Comparator<Product> byCategoryDesc = (p1, p2) -> p2.getCategory().compareTo(p1.getCategory());
+                    list.sort(byCategoryDesc);
+                }
+                break;
+            case 5:
+                if (sortingType == 1) {
+                    Comparator<Product> byPurchasedNumber = (p1, p2) -> Integer.compare(p1.getPurchasedNumber(), p2.getPurchasedNumber());
+                    list.sort(byPurchasedNumber);
+                } else {
+                    Comparator<Product> byPurchasedNumberDesc = (p1, p2) -> Integer.compare(p2.getPurchasedNumber(), p1.getPurchasedNumber());
+                    list.sort(byPurchasedNumberDesc);
+                }
+                break;
         }
-        System.out.println("The product doesn't exist in the list");
     }
 
 }

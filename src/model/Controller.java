@@ -58,10 +58,6 @@ public class Controller {
         }
     }
 
-    public void deleteProduct(String productName) throws IOException {
-        productList.DeleteProduct(productName);
-    }
-
     public void changeProductQuantity(String product, int quantity) throws IOException {
         if (productList.changeQuantity(product, quantity)) {
             productList.save();
@@ -95,12 +91,12 @@ public class Controller {
         return orderList.deleteOrder(buyerName);
     }
 
-    public String searchProduct(int option, String data) {
-        return productList.searchProduct(option, data);
+    public String searchProduct(int option, String data, int sortingType, int sortingVariable) {
+        return productList.searchProduct(option, data, sortingType, sortingVariable);
     }
 
-    public String searchProduct(int option, String minData, String maxData) {
-        return productList.searchProduct(option, minData, maxData);
+    public String searchProduct(int option, String minData, String maxData, int sortingType, int sortingVariable) {
+        return productList.searchProduct(option, minData, maxData, sortingType, sortingVariable);
     }
 
     public String searchOrder(int option, String data) {

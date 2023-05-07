@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class BinarySearch<T> {
@@ -10,17 +9,6 @@ public class BinarySearch<T> {
 
     }
 
-    /**
-     * Recursive binary search algorithm that takes an ArrayList of objects and a
-     * comparator function that maps an object to the attribute you want to search for.
-     *
-     * @param list         The ArrayList to search
-     * @param comparator   The comparator function that maps an object to the attribute you want to search for
-     * @param targetValue  The value of the attribute you want to find
-     * @param lowIndex     The lowest index to search
-     * @param highIndex    The highest index to search
-     * @return             The index of the object that has the target attribute value, or -1 if not found
-     */
     public int search(ArrayList<T> list, Comparator<T> comparator, T targetValue, int lowIndex, int highIndex) {
         if (lowIndex > highIndex) {
             // If we've narrowed the search down to one element, and it doesn't match, return -1
@@ -109,6 +97,5 @@ public class BinarySearch<T> {
             return results;
         }
     }
-
 
 }

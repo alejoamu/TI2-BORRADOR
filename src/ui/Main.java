@@ -22,9 +22,6 @@ public class Main {
         manager.showMainMenu();
     }
 
-    /**
-     * The method showMainMenu, displays the main menu, allowing the user to choose between product management, order management and exit.
-     */
     public void showMainMenu() throws IOException {
         // Display welcome message
         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
@@ -73,14 +70,11 @@ public class Main {
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                sc.nextLine(); // Consume the invalid input
+                sc.nextLine();
             }
         }
     }
 
-    /**
-     * The method showProductManagementMenu, displays the product management menu, allowing the user to choose between several options.
-     */
     public void showProductManagementMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
@@ -90,10 +84,9 @@ public class Main {
             // Display menu options
             System.out.println(Color.BOLD + Color.UNDERLINE + "PRODUCT MANAGEMENT MENU:" + Color.RESET +
                     Color.BOLD + Color.YELLOW + "\n[1]" + Color.RESET + " Add new product" +
-                    Color.BOLD + Color.YELLOW + "\n[2]" + Color.RESET + " Delete product" +
-                    Color.BOLD + Color.YELLOW + "\n[3]" + Color.RESET + " Increase the available quantity of a product" +
-                    Color.BOLD + Color.YELLOW + "\n[4]" + Color.RESET + " Search product" +
-                    Color.BOLD + Color.YELLOW + "\n[5]" + Color.RESET + " Return to the main menu");
+                    Color.BOLD + Color.YELLOW + "\n[2]" + Color.RESET + " Increase the available quantity of a product" +
+                    Color.BOLD + Color.YELLOW + "\n[3]" + Color.RESET + " Search product" +
+                    Color.BOLD + Color.YELLOW + "\n[4]" + Color.RESET + " Return to the main menu");
             try {
                 // Read user input from console
                 System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
@@ -110,23 +103,18 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 2:
-                        // Delete product
-                        controller.loadProductList();
-                        deleteProduct();
-                        stopFlag = true;
-                        break;
-                    case 3:
                         // Increase quantity
                         controller.loadProductList();
                         changeQuantity();
                         stopFlag = true;
                         break;
-                    case 4:
+                    case 3:
                         // Search product
+                        controller.loadProductList();
                         showProductSearchMenu();
                         stopFlag = true;
                         break;
-                    case 5:
+                    case 4:
                         // Return to the main menu
                         stopFlag = true;
                         break;
@@ -140,14 +128,11 @@ public class Main {
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                sc.nextLine(); // Consume the invalid input
+                sc.nextLine();
             }
         }
     }
 
-    /**
-     * The method showOrderManagementMenu, displays the order management menu, allowing the user to choose between several options.
-     */
     public void showOrderManagementMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
@@ -157,9 +142,8 @@ public class Main {
             // Display menu options
             System.out.println(Color.BOLD + Color.UNDERLINE + "ORDER MANAGEMENT MENU:" + Color.RESET +
                     Color.BOLD + Color.YELLOW + "\n[1]" + Color.RESET + " Add new order" +
-                    Color.BOLD + Color.YELLOW + "\n[2]" + Color.RESET + " Delete order" +
-                    Color.BOLD + Color.YELLOW + "\n[3]" + Color.RESET + " Search order" +
-                    Color.BOLD + Color.YELLOW + "\n[4]" + Color.RESET + " Return to the main menu");
+                    Color.BOLD + Color.YELLOW + "\n[2]" + Color.RESET + " Search order" +
+                    Color.BOLD + Color.YELLOW + "\n[3]" + Color.RESET + " Return to the main menu");
             try {
                 // Read user input from console
                 System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
@@ -176,17 +160,12 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 2:
-                        // Delete order
-                        controller.loadOrderList();
-                        deleteOrder();
-                        stopFlag = true;
-                        break;
-                    case 3:
                         // Search order
+                        controller.loadOrderList();
                         showOrderSearchMenu();
                         stopFlag = true;
                         break;
-                    case 4:
+                    case 3:
                         // Return to the main menu
                         stopFlag = true;
                         break;
@@ -200,14 +179,11 @@ public class Main {
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                sc.nextLine(); // Consume the invalid input
+                sc.nextLine();
             }
         }
     }
 
-    /**
-     * The method showProductSearchMenu, displays the product search menu, allowing the user to choose between several options.
-     */
     public void showProductSearchMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
@@ -227,7 +203,7 @@ public class Main {
                 System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
                 int option = sc.nextInt();
                 int optionSubmenu = 0;
-                controller.loadProductList();
+                int[] sort;
 
                 // Determine action based on user input
                 switch (option) {
@@ -238,24 +214,17 @@ public class Main {
                                     Color.BOLD + Color.YELLOW + "\n\t[1]" + Color.RESET + " Exact search" +
                                     Color.BOLD + Color.YELLOW + "\n\t[2]" + Color.RESET + " Interval search");
                             System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
-                            try {
-                                optionSubmenu = sc.nextInt();
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                sc.nextLine(); // Consume newline character
-                            } catch (InputMismatchException e) {
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                sc.nextLine(); // Consume invalid input
-                                continue;
-                            }
+                            optionSubmenu = sc.nextInt();
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            sc.nextLine();
+
                             switch (optionSubmenu) {
                                 case 1:
                                     // Search by name
                                     System.out.print(Color.BOLD + Color.YELLOW + "Product name: " + Color.RESET);
                                     String nameProduct = sc.nextLine();
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                    System.out.print(controller.searchProduct(option, nameProduct));
+                                    System.out.print(controller.searchProduct(option, nameProduct, 0, 0));
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     break;
                                 case 2:
@@ -264,12 +233,12 @@ public class Main {
                                     String initialPrefix = sc.nextLine();
                                     System.out.print(Color.BOLD + Color.YELLOW + "Final prefix: " + Color.RESET);
                                     String finalPrefix = sc.nextLine();
+                                    sort = sortingSubmenuProduct();
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                    System.out.print(controller.searchProduct(option, initialPrefix, finalPrefix));
+                                    System.out.print(controller.searchProduct(option, initialPrefix, finalPrefix, sort[0], sort[1]));
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     break;
                                 default:
-                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     System.out.println(Color.BOLD + Color.YELLOW + "                     OPTION NOT AVAILABLE                      " + Color.RESET);
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     break;
@@ -284,30 +253,24 @@ public class Main {
                                     Color.BOLD + Color.YELLOW + "\n\t[1]" + Color.RESET + " Exact search" +
                                     Color.BOLD + Color.YELLOW + "\n\t[2]" + Color.RESET + " Range search");
                             System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
-                            try {
-                                optionSubmenu = sc.nextInt();
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                sc.nextLine(); // Consume newline character
-                            } catch (InputMismatchException e) {
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                sc.nextLine(); // Consume invalid input
-                                continue;
-                            }
+                            optionSubmenu = sc.nextInt();
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            sc.nextLine();
+
                             switch (optionSubmenu) {
                                 case 1:
                                     // Search by price
                                     try {
                                         System.out.print(Color.BOLD + Color.YELLOW + "Price: " + Color.RESET);
                                         String price = sc.nextLine();
+                                        sort = sortingSubmenuProduct();
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                        System.out.print(controller.searchProduct(option, price));
+                                        System.out.print(controller.searchProduct(option, price, sort[0], sort[1]));
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     } catch (IncompleteDataException ex) {
-                                            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
-                                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                        }
+                                        System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+                                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                                    }
                                     break;
                                 case 2:
                                     // Search by price range
@@ -316,8 +279,9 @@ public class Main {
                                         String minPrice = sc.nextLine();
                                         System.out.print(Color.BOLD + Color.YELLOW + "Maximum price: " + Color.RESET);
                                         String maxPrice = sc.nextLine();
+                                        sort = sortingSubmenuProduct();
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                        System.out.print(controller.searchProduct(option, minPrice, maxPrice));
+                                        System.out.print(controller.searchProduct(option, minPrice, maxPrice, sort[0], sort[1]));
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     } catch (IncompleteDataException ex) {
                                         System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
@@ -325,7 +289,6 @@ public class Main {
                                     }
                                     break;
                                 default:
-                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     System.out.println(Color.BOLD + Color.YELLOW + "                     OPTION NOT AVAILABLE                      " + Color.RESET);
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     break;
@@ -340,17 +303,16 @@ public class Main {
                         do {
                             System.out.print(category);
                             System.out.print(Color.BOLD + Color.YELLOW + "Category: " + Color.RESET);
-                            try {
-                                categoryIndex = sc.nextInt();
-                            } catch (NumberFormatException ex) {
+                            categoryIndex = sc.nextInt();
+                            if (categoryIndex < 1 || categoryIndex > 8) {
                                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
+                                System.out.println(Color.BOLD + Color.YELLOW + "                     OPTION NOT AVAILABLE                      " + Color.RESET);
                                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                             }
-                            if (categoryIndex < 1 || categoryIndex > 8) System.out.println(Color.BOLD + "Please enter a valid option" + Color.RESET);
                         } while (categoryIndex < 1 || categoryIndex > 8);
+                        sort = sortingSubmenuProduct();
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                        System.out.print(controller.searchProduct(option, String.valueOf(categoryIndex - 1)));
+                        System.out.print(controller.searchProduct(option, String.valueOf(categoryIndex - 1), sort[0], sort[1]));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
@@ -361,25 +323,19 @@ public class Main {
                                     Color.BOLD + Color.YELLOW + "\n\t[1]" + Color.RESET + " Exact search" +
                                     Color.BOLD + Color.YELLOW + "\n\t[2]" + Color.RESET + " Range search");
                             System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
-                            try {
-                                optionSubmenu = sc.nextInt();
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                sc.nextLine(); // Consume newline character
-                            } catch (InputMismatchException e) {
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
-                                System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                sc.nextLine(); // Consume invalid input
-                                continue;
-                            }
+                            optionSubmenu = sc.nextInt();
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            sc.nextLine();
+
                             switch (optionSubmenu) {
                                 case 1:
                                     // Search by number of times purchased
                                     try {
                                         System.out.print(Color.BOLD + Color.YELLOW + "Number of times purchased: " + Color.RESET);
                                         String purchasedNumber = sc.nextLine();
+                                        sort = sortingSubmenuProduct();
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                        System.out.print(controller.searchProduct(option, purchasedNumber));
+                                        System.out.print(controller.searchProduct(option, purchasedNumber, sort[0], sort[1]));
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     } catch (IncompleteDataException ex) {
                                         System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
@@ -393,8 +349,9 @@ public class Main {
                                         String minPurchasedNumber = sc.nextLine();
                                         System.out.print(Color.BOLD + Color.YELLOW + "Maximum purchased number: " + Color.RESET);
                                         String maxPurchasedNumber = sc.nextLine();
+                                        sort = sortingSubmenuProduct();
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                                        System.out.print(controller.searchProduct(option, minPurchasedNumber, maxPurchasedNumber));
+                                        System.out.print(controller.searchProduct(option, minPurchasedNumber, maxPurchasedNumber, sort[0], sort[1]));
                                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     } catch (IncompleteDataException ex) {
                                         System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
@@ -402,7 +359,6 @@ public class Main {
                                     }
                                     break;
                                 default:
-                                    System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     System.out.println(Color.BOLD + Color.YELLOW + "                     OPTION NOT AVAILABLE                      " + Color.RESET);
                                     System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                                     break;
@@ -411,6 +367,24 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 5:
+                        // Search by quantity available range
+                        try {
+                            sc.nextLine();
+                            System.out.print(Color.BOLD + Color.YELLOW + "Minimal quantity available: " + Color.RESET);
+                            String minQuantityAvailable = sc.nextLine();
+                            System.out.print(Color.BOLD + Color.YELLOW + "Maximum quantity available: " + Color.RESET);
+                            String maxQuantityAvailable = sc.nextLine();
+                            sort = sortingSubmenuProduct();
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                            System.out.print(controller.searchProduct(option, minQuantityAvailable, maxQuantityAvailable, sort[0], sort[1]));
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        } catch (IncompleteDataException ex) {
+                            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+                            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        }
+                        stopFlag = true;
+                        break;
+                    case 6:
                         // Return to the main menu
                         stopFlag = true;
                         break;
@@ -424,14 +398,11 @@ public class Main {
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                sc.nextLine(); // Consume the invalid input
+                sc.nextLine();
             }
         }
     }
 
-    /**
-     * The method showOrderSearchMenu, displays the order search menu, allowing the user to choose between several options.
-     */
     public void showOrderSearchMenu() throws IOException {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
@@ -494,12 +465,50 @@ public class Main {
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                 System.out.println(Color.BOLD + Color.YELLOW + "      INVALID INPUT: PLEASE ENTER AN INTEGER VALUE       " + Color.RESET);
                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                sc.nextLine(); // Consume the invalid input
+                sc.nextLine();
             }
         }
     }
 
-    private void addProduct() throws IOException {
+    public int[] sortingSubmenuProduct() throws IOException {
+        // Array results
+        int[] result = new int[2];
+        try {
+            int sortType = -1;
+            do {
+                System.out.println(Color.BOLD + Color.UNDERLINE + "\tSORT TYPE METHOD:" + Color.RESET +
+                        Color.BOLD + Color.YELLOW + "\n\t[1]" + Color.RESET + " Upward" +
+                        Color.BOLD + Color.YELLOW + "\n\t[2]" + Color.RESET + " Falling");
+                System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                sortType = Integer.parseInt(sc.nextLine());
+            } while (sortType < 1 || sortType > 2);
+            result[0] = sortType;
+
+            // Array contains String product attributes
+            String[] labels = {Color.BOLD + Color.UNDERLINE + "\tSORT VARIABLE" + Color.RESET,
+                    Color.BOLD + Color.YELLOW + "\n\t[1] " + Color.RESET + "Product name",
+                    Color.BOLD + Color.YELLOW + "\n\t[2] " + Color.RESET + "Price",
+                    Color.BOLD + Color.YELLOW + "\n\t[3] " + Color.RESET + "Quantity available",
+                    Color.BOLD + Color.YELLOW + "\n\t[4] " + Color.RESET + "Category",
+                    Color.BOLD + Color.YELLOW + "\n\t[5] " + Color.RESET + "Number of times purchased\n"};
+            int sortVariable = -1;
+            do {
+                for (String label : labels) {
+                    System.out.print(label);
+                }
+                System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                sortVariable = Integer.parseInt(sc.nextLine());
+            } while (sortVariable < 1 || sortVariable > 5);
+            result[1] = sortVariable;
+        } catch (IncompleteDataException  ex) {
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        }
+        return result;
+    }
+
+    public void addProduct() throws IOException {
         // Array contains
         String[] input = new String[6];
         // Array contains String product attributes
@@ -533,7 +542,7 @@ public class Main {
 
     }
 
-    private void addOrder() throws IOException {
+    public void addOrder() throws IOException {
         controller.loadProductList();
         System.out.println("PRODUCTS LIST");
         controller.showProductList();
@@ -561,23 +570,6 @@ public class Main {
             System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
         }
-    }
-
-    private void deleteProduct() throws IOException {
-        controller.loadProductList();
-        controller.showProductList();
-        System.out.println("Please enter the name of the product to delete");
-        String productName = sc.nextLine();
-        controller.deleteProduct(productName);
-    }
-
-    private void deleteOrder() throws IOException {
-        controller.loadOrderList();
-        controller.showOrderList();
-        System.out.println("Please enter the buyer name of the order to delete");
-        String buyerName = sc.nextLine();
-        System.out.println(controller.deleteOrder(buyerName));
-
     }
 
     public void changeQuantity() throws IOException {
