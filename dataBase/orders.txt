@@ -1,1 +1,1 @@
-[{"buyerName":"alejo","productsOrder":["Game{"],"totalPrice":1.0,"productsQuantity":["20"],"purchasedDate":{"year":2023,"month":12,"day":12}}]
+[{"buyerName":"Board Game","productsOrder":["Board Game"],"totalPrice":10.0,"productsQuantity":["2"],"purchasedDate":{"year":2023,"month":2,"day":2}}]
