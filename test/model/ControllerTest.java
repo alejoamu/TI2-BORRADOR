@@ -1,8 +1,10 @@
 package model;
 
+import exceptions.DateFormatException;
 import exceptions.IncompleteDataException;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.junit.Assert.*;
@@ -255,6 +257,18 @@ public class ControllerTest {
 
         // Assert
         assertTrue(result.contains("NO ORDER HAS THAT CHARACTERISTIC"));
+    }
+
+    @Test
+    public void addOrderWrongDateFormat() {
+        // Arrange
+        setupStage2();
+        String[] data ={"Santiago", "PS5,PSP,Audífonos", "2,3,2", "2000000.0", "2023"};
+
+        // Act - Assert
+        assertThrows(DateFormatException.class, () -> {
+            controller.addOrder(data);
+        });
     }
 
 }

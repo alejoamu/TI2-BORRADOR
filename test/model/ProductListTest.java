@@ -159,19 +159,19 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchProductByIntervalName() {
+    public void searchProductByIntervalNameTest() {
         // Arrange
         setupStage3();
         ArrayList<Product> result = new ArrayList<>();
-        result.add(product3);
         result.add(product5);
+        result.add(product3);
 
         // Act - Assert
         assertEquals(productList.searchProductByName("A", "C"), result);
     }
 
     @Test
-    public void searchProductByWrongIntervalName() {
+    public void searchProductByWrongIntervalNameTest() {
         // Arrange
         setupStage3();
 
@@ -180,7 +180,7 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchMultipleProductsByIntervalName() {
+    public void searchMultipleProductsByIntervalNameTest() {
         // Arrange
         setupStage3();
         ArrayList<Product> result = new ArrayList<>();
@@ -195,7 +195,7 @@ public class ProductListTest {
     }
 
     @Test
-    public void searchProductByRangePrince() {
+    public void searchProductByRangePriceTest() {
         // Arrange
         setupStage3();
         ArrayList<Product> result = new ArrayList<>();
@@ -206,6 +206,87 @@ public class ProductListTest {
         assertEquals(productList.searchProductByPrice(1000000, 2500000), result);
     }
 
-//    @Test
-//    public void searchProductByRange
+    @Test
+    public void searchProductByNegativeRangePriceTest() {
+        // Arrange
+        setupStage3();
+
+        // Act - Assert
+        assertThrows(NegativeNumberException.class, () -> {
+            productList.searchProductByPrice(-100000, -250000);
+        });
+    }
+
+    @Test
+    public void searchProductByRangeQuantityAvailableTest() {
+        // Arrange
+        setupStage3();
+        ArrayList<Product> result = new ArrayList<>();
+        result.add(product4);
+        result.add(product3);
+        result.add(product5);
+
+        // Act - Assert
+        assertEquals(productList.searchProductByQuantityAvailable(5, 20), result);
+    }
+
+    @Test
+    public void searchProductByNegativeRangeQuantityAvailableTest() {
+        // Arrange
+        setupStage3();
+
+        // Act - Assert
+        assertThrows(NegativeNumberException.class, () -> {
+            productList.searchProductByQuantityAvailable(-10, 0);
+        });
+    }
+
+    @Test
+    public void searchProductByRangePurchasedNumberTest() {
+        // Arrange
+        setupStage3();
+        ArrayList<Product> result = new ArrayList<>();
+        result.add(product1);
+        result.add(product2);
+        result.add(product4);
+        result.add(product5);
+        result.add(product3);
+
+        // Act - Assert
+        assertEquals(productList.searchProductByPurchasedNumber(1, 10), result);
+    }
+
+    @Test
+    public void searchProductByNegativeRangePurchasedNumberTest() {
+        // Arrange
+        setupStage3();
+
+        // Act - Assert
+        assertThrows(NegativeNumberException.class, () -> {
+            productList.searchProductByPurchasedNumber(-1, -50);
+        });
+    }
+
+    @Test
+    public void searchProductDescendingOrder() {
+        // Arrange
+        setupStage3();
+        ArrayList<Product> result = new ArrayList<>();
+        result.add(product5);
+        result.add(product3);
+
+        // Act - Assert
+        assertEquals(productList.searchProduct(1, "A", "C", 2, 1), "Product: Camiseta Description: Camiseta oversize Price: 70000.00 Quantity Available: 20 Category: CLOTHING_AND_ACCESSORIES Purchased Number: 10\n" +
+                "Product: Balón Description: Balón de fútbol Price: 50000.00 Quantity Available: 20 Category: SPORTS Purchased Number: 5\n");
+    }
+
+    @Test
+    public void searchProductAscendigOrder() {
+        // Arrange
+        setupStage3();
+
+        // Act - Assert
+        assertEquals(productList.searchProduct(2, "1000000", "2500000", 1, 2), "Product: PS5 Description: VideoGame Price: 2000000.00 Quantity Available: 4 Category: TOYS_AND_GAMES Purchased Number: 2\n" +
+                "Product: XBOX Description: VideoGame Price: 2500000.00 Quantity Available: 7 Category: TOYS_AND_GAMES Purchased Number: 3\n");
+    }
 }

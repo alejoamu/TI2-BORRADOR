@@ -75,7 +75,12 @@ public class Controller {
             String[] arrProducts = data[1].split(",");
             String[] arrProductsQuantity = data[2].split(",");
             String[] arrDate = data[4].split("-");
-            LocalDate date = LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
+            LocalDate date;
+            try {
+                date = LocalDate.of(Integer.parseInt(arrDate[0]), Integer.parseInt(arrDate[1]), Integer.parseInt(arrDate[2]));
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                throw new DateFormatException();
+            }
 
             Order newOrder = new Order(data[0], arrProducts, arrProductsQuantity, Integer.parseInt(data[3]), date);
 
@@ -119,10 +124,10 @@ public class Controller {
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
             System.out.println(Color.BOLD + Color.YELLOW + "                   ORDER SUCCESSFULLY ADDED                    " + Color.RESET);
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        } catch (NumberFormatException | DateFormatException ex) {
+            throw new DateFormatException();
         } catch (ArrayIndexOutOfBoundsException ex) {
             throw new IncompleteDataException();
-        } catch (NumberFormatException ex) {
-            throw new DateFormatException();
         }
     }
 
