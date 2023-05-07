@@ -1,10 +1,7 @@
 package ui;
 
 import color.Color;
-import exceptions.DateFormatException;
-import exceptions.EmptyFileException;
-import exceptions.IncompleteDataException;
-import exceptions.NegativeNumberException;
+import exceptions.*;
 import model.Controller;
 
 import java.io.IOException;
@@ -592,7 +589,7 @@ public class Main {
         }
         try {
             controller.addOrder(input);
-        } catch (IncompleteDataException | NegativeNumberException | DateFormatException ex) {
+        } catch (IncompleteDataException | NegativeNumberException | DateFormatException | DecimalNumberException ex) {
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
             System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);

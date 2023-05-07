@@ -2,6 +2,7 @@ package model;
 
 import color.Color;
 import exceptions.DateFormatException;
+import exceptions.DecimalNumberException;
 import exceptions.IncompleteDataException;
 
 import java.io.IOException;
@@ -82,7 +83,7 @@ public class Controller {
                 throw new DateFormatException();
             }
 
-            Order newOrder = new Order(data[0], arrProducts, arrProductsQuantity, Integer.parseInt(data[3]), date);
+            Order newOrder = new Order(data[0], arrProducts, arrProductsQuantity, Double.parseDouble(data[3]), date);
 
             if (arrProducts.length != arrProductsQuantity.length) {
                 if (arrProducts.length > arrProductsQuantity.length) {
@@ -124,10 +125,12 @@ public class Controller {
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
             System.out.println(Color.BOLD + Color.YELLOW + "                   ORDER SUCCESSFULLY ADDED                    " + Color.RESET);
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-        } catch (NumberFormatException | DateFormatException ex) {
+        } catch (DateFormatException ex) {
             throw new DateFormatException();
         } catch (ArrayIndexOutOfBoundsException ex) {
             throw new IncompleteDataException();
+        } catch (NumberFormatException ex) {
+            throw new DecimalNumberException();
         }
     }
 

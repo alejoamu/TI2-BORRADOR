@@ -3,15 +3,7 @@
     "productName": "Board Game",
     "description": "Hours of Fun with Friends",
     "price": 39.99,
-    "quantityAvailable": 12,
-    "category": "TOYS_AND_GAMES",
-    "purchasedNumber": 7
-  },
-  {
-    "productName": "ZZZZZ",
-    "description": "Hours of Fun with Friends",
-    "price": 39.99,
-    "quantityAvailable": 12,
+    "quantityAvailable": 8,
     "category": "TOYS_AND_GAMES",
     "purchasedNumber": 7
   },
@@ -86,5 +78,13 @@
     "quantityAvailable": 15,
     "category": "ELECTRONICS",
     "purchasedNumber": 8
+  },
+  {
+    "productName": "ZZZZZ",
+    "description": "Hours of Fun with Friends",
+    "price": 39.99,
+    "quantityAvailable": 12,
+    "category": "TOYS_AND_GAMES",
+    "purchasedNumber": 7
   }
 ]

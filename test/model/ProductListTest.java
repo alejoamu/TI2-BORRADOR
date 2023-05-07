@@ -167,7 +167,7 @@ public class ProductListTest {
         result.add(product3);
 
         // Act - Assert
-        assertEquals(productList.searchProductByName("A", "C"), result);
+        assertEquals(productList.searchProductByName("B", "C"), result);
     }
 
     @Test
