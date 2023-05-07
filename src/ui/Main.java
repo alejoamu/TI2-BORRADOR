@@ -438,16 +438,16 @@ public class Main {
                         String totalPrice = sc.nextLine();
                         sort = sortingSubmenuOrder();
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                        System.out.println(controller.searchOrder(option, totalPrice, sort[0], sort[1]));
+                        System.out.print(controller.searchOrder(option, totalPrice, sort[0], sort[1]));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
                     case 3:
-                        System.out.print(Color.BOLD + Color.YELLOW + "Purchased date: " + Color.RESET);
+                        System.out.print(Color.BOLD + Color.YELLOW + "Purchased date (YYYY-MM-DD): " + Color.RESET);
                         String purchasedDate = sc.nextLine();
                         sort = sortingSubmenuOrder();
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
-                        System.out.println(controller.searchOrder(option, purchasedDate, sort[0], sort[1]));
+                        System.out.print(controller.searchOrder(option, purchasedDate, sort[0], sort[1]));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
