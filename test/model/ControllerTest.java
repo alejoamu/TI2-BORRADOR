@@ -5,9 +5,10 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
-/*public class ControllerTest {
+public class ControllerTest {
 
     Controller controller;
     LocalDate date1 = LocalDate.of(2023, 4, 5);
@@ -193,7 +194,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchOrder(1, "Santiago"), "Buyer: Santiago Products list: PS5, PSP, Audífonos Total price: 2000000.0 Purchase date: 2023-04-05");
+        assertEquals(controller.searchOrder(1, "Santiago", 0, 0), "Buyer: Santiago Products list: PS5, PSP, Audífonos Total price: 2000000.0 Purchase date: 2023-04-05");
     }
 
     @Test
@@ -202,7 +203,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchOrder(2, "3000000.0"), "Buyer: Luis Products list: XBOX, Mando inalámbrico, Audífonos Total price: 3000000.0 Purchase date: 2023-04-05");
+        assertEquals(controller.searchOrder(2, "3000000.0", 0, 0), "Buyer: Luis Products list: XBOX, Mando inalámbrico, Audífonos Total price: 3000000.0 Purchase date: 2023-04-05");
     }
 
     @Test
@@ -212,7 +213,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(IncompleteDataException.class, () -> {
-            controller.searchOrder(1, "");
+            controller.searchOrder(1, "", 0, 0);
         });
     }
 
@@ -223,7 +224,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(IncompleteDataException.class, () -> {
-            controller.searchOrder(2, "");
+            controller.searchOrder(2, "", 0, 0);
         });
     }
 
@@ -233,7 +234,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchOrder(1, "Juan"), "the order doesn't exist in the list");
+        assertEquals(controller.searchOrder(1, "Juan", 0, 0), "the order doesn't exist in the list");
     }
 
     @Test
@@ -242,7 +243,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchOrder(2, "1000000.0"), "the order doesn't exist in the list");
+        assertEquals(controller.searchOrder(2, "1000000.0", 0, 0), "the order doesn't exist in the list");
     }
 
-}*/
+}

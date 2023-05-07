@@ -7,19 +7,22 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
-/*public class OrderListTest {
+public class OrderListTest {
 
     OrderList orderList;
     LocalDate date1 = LocalDate.of(2023, 4, 5);
     LocalDate date2 = LocalDate.of(2023, 4, 12);
     LocalDate date3 = LocalDate.of(2023, 4, 5);
-    //Order order1 = new Order("Santiago", "PS5, PSP, Audífonos", 2000000.0, date1);
-    //Order order2 = new Order("James", "Camiseta, Pantaloneta, Guayos", 250000.0, date2);
-    //Order order3 = new Order("Luis", "XBOX, Mando inalámbrico, Audífonos", 3000000.0, date3);
+    Order order1 = new Order("Santiago", "PS5, PSP, Audífonos", 2000000.0, date1);
+    Order order2 = new Order("James", "Camiseta, Pantaloneta, Guayos", 250000.0, date2);
+    Order order3 = new Order("Luis", "XBOX, Mando inalámbrico, Audífonos", 3000000.0, date3);
 
-    public void setupStage1() {orderList = new OrderList();}
+    public void setupStage1() {
+        orderList = new OrderList();
+    }
 
     public void setupStage2() {
         orderList = new OrderList();
@@ -29,9 +32,9 @@ import static org.junit.Assert.*;
 
     public void setupStage3() {
         orderList = new OrderList();
-        //orderList.getOrders().add(order1);
-       // orderList.getOrders().add(order2);
-     //   orderList.getOrders().add(order3);
+        orderList.getOrders().add(order1);
+        orderList.getOrders().add(order2);
+        orderList.getOrders().add(order3);
     }
 
     // FALTANTES: En el añadir, falta tener en cuenta la cantidad de cada producto
@@ -41,8 +44,10 @@ import static org.junit.Assert.*;
     public void addOrderTest() {
         // Arrange
         setupStage1();
+
         // Act
-       // orderList.getOrders().add(order2);
+        orderList.getOrders().add(order2);
+
         // Assert
         assertEquals(orderList.getOrders().size(), 1);
     }
@@ -51,9 +56,10 @@ import static org.junit.Assert.*;
     public void addOrderNegativeTotalPriceTest() {
         // Arrange
         setupStage1();
+
         // Act - Assert
         assertThrows(NegativeNumberException.class, () -> {
-        //    orderList.getOrders().add(new Order("James", "Camiseta, Pantaloneta, Guayos", -250000.0, date2));
+            orderList.getOrders().add(new Order("James", "Camiseta, Pantaloneta, Guayos", -250000.0, date2));
         });
         assertEquals(orderList.getOrders().size(), 0);
     }
@@ -66,7 +72,7 @@ import static org.junit.Assert.*;
         setupStage3();
 
         // Act - Assert
-        assertEquals(orderList.searchOrder(1, "James"), "Buyer: James Products list: Camiseta, Pantaloneta, Guayos Total price: 250000.0 Purchase date: 2023-04-12");
+        assertEquals(orderList.searchOrder(1, "James", 0, 0), "Buyer: James Products list: Camiseta, Pantaloneta, Guayos Total price: 250000.0 Purchase date: 2023-04-12");
     }
 
     @Test
@@ -76,7 +82,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(IncompleteDataException.class, () -> {
-            orderList.searchOrder(1, "");
+            orderList.searchOrder(1, "", 0, 0);
         });
     }
 
@@ -86,7 +92,7 @@ import static org.junit.Assert.*;
         setupStage3();
 
         // Act - Assert
-        assertEquals(orderList.searchOrder(2, "2000000.0"), "Buyer: Santiago Products list: PS5, PSP, Audífonos Total price: 2000000.0 Purchase date: 2023-04-05");
+        assertEquals(orderList.searchOrder(2, "2000000.0", 0, 0), "Buyer: Santiago Products list: PS5, PSP, Audífonos Total price: 2000000.0 Purchase date: 2023-04-05");
     }
 
     @Test
@@ -96,7 +102,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(NegativeNumberException.class, () -> {
-            orderList.searchOrder(2, "-2000000.0");
+            orderList.searchOrder(2, "-2000000.0", 0, 0);
         });
     }
 
@@ -106,7 +112,7 @@ import static org.junit.Assert.*;
         setupStage3();
 
         // Act - Assert
-        assertEquals(orderList.searchOrder(3, "2023-04-05"), "");
+        assertEquals(orderList.searchOrder(3, "2023-04-05", 0, 0), "");
     }
 
     @Test
@@ -116,8 +122,8 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(DateFormatException.class, () -> {
-            orderList.searchOrder(3, "2023");
+            orderList.searchOrder(3, "2023", 0, 0);
         });
     }
 
-}*/
+}

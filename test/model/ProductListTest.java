@@ -17,7 +17,9 @@ public class ProductListTest {
     Product product4 = new Product("XBOX", "VideoGame", 2500000.0, 7, Category.TOYS_AND_GAMES, 3);
     Product product5 = new Product("Balón", "Balón de fútbol", 50000.0, 20, Category.SPORTS, 5);
 
-    public void setupStage1() {productList = new ProductList();}
+    public void setupStage1() {
+        productList = new ProductList();
+    }
 
     public void setupStage2() {
         productList = new ProductList();
@@ -39,8 +41,10 @@ public class ProductListTest {
     public void addProductTest() {
         // Arrange
         setupStage1();
+
         // Act
         productList.getProducts().add(product1);
+
         // Assert
         assertEquals(productList.getProducts().size(), 1);
     }
@@ -49,6 +53,7 @@ public class ProductListTest {
     public void addProductNegativePriceTest() {
         // Arrange
         setupStage1();
+
         // Act - Assert
         assertThrows(NegativeNumberException.class, () -> {
             productList.getProducts().add(new Product("PS5", "VideoGame", -2000000.0, 4, Category.TOYS_AND_GAMES, 2));
@@ -59,6 +64,7 @@ public class ProductListTest {
     public void addProductNegativeQuantityAvailableTest() {
         // Arrange
         setupStage1();
+
         // Act - Assert
         assertThrows(NegativeNumberException.class, () -> {
             productList.getProducts().add(new Product("PS5", "VideoGame", 2000000.0, -4, Category.TOYS_AND_GAMES, 2));
@@ -70,6 +76,7 @@ public class ProductListTest {
         // Arrange
         setupStage1();
         // Act - Assert
+
         assertThrows(NegativeNumberException.class, () -> {
             productList.getProducts().add(new Product("PS5", "VideoGame", 2000000.0, 4, Category.TOYS_AND_GAMES, -2));
         });
