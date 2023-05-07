@@ -134,8 +134,8 @@ public class Controller {
         return productList.searchProduct(option, minData, maxData, sortingType, sortingVariable);
     }
 
-    public String searchOrder(int option, String data) {
-        return orderList.searchOrder(option, data);
+    public String searchOrder(int option, String data, int sortingType, int sortingVariable) {
+        return orderList.searchOrder(option, data, sortingType, sortingVariable);
     }
 
 }

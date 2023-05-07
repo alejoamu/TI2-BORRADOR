@@ -70,13 +70,6 @@ public class ProductList {
         }
     }
 
-    public void show() {
-        for (Product p : products) { //P es cada elemento de la lista
-            System.out.println(p.getProductName());
-            return;
-        }
-    }
-
     public boolean changeQuantity(String product, int quantity) {
         Product result = searchProductByName(product);
         if (result == null) {

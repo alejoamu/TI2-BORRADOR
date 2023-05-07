@@ -181,7 +181,7 @@ public class Main {
         }
     }
 
-    public void showProductSearchMenu() throws IOException {
+    public void showProductSearchMenu() {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -401,7 +401,7 @@ public class Main {
         }
     }
 
-    public void showOrderSearchMenu() throws IOException {
+    public void showOrderSearchMenu() {
         // Initialize stop flag for menu loop
         boolean stopFlag = false;
 
@@ -421,28 +421,33 @@ public class Main {
 
                 // Determine action based on user input
                 sc.nextLine();
+                int[] sort;
                 switch (option) {
                     case 1:
-                        System.out.println("Please enter the name of the buyer");
-                        System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                        // Search by name
+                        System.out.print(Color.BOLD + Color.YELLOW + "Buyer name: " + Color.RESET);
                         String buyerName = sc.nextLine();
-                        System.out.println(controller.searchOrder(option, buyerName));
+                        sort = sortingSubmenuOrder();
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.print(controller.searchOrder(option, buyerName, sort[0], sort[1]));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
                     case 2:
-                        System.out.println("Please enter the order total price");
-                        System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                        System.out.print(Color.BOLD + Color.YELLOW + "Total price: " + Color.RESET);
                         String totalPrice = sc.nextLine();
-                        System.out.println(controller.searchOrder(option, totalPrice));
+                        sort = sortingSubmenuOrder();
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.println(controller.searchOrder(option, totalPrice, sort[0], sort[1]));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
                     case 3:
-                        System.out.println("Please enter the purchased date");
-                        System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                        System.out.print(Color.BOLD + Color.YELLOW + "Purchased date: " + Color.RESET);
                         String purchasedDate = sc.nextLine();
-                        System.out.println(controller.searchOrder(option, purchasedDate));
+                        sort = sortingSubmenuOrder();
+                        System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+                        System.out.println(controller.searchOrder(option, purchasedDate, sort[0], sort[1]));
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         stopFlag = true;
                         break;
@@ -465,7 +470,7 @@ public class Main {
         }
     }
 
-    public int[] sortingSubmenuProduct() throws IOException {
+    public int[] sortingSubmenuProduct() {
         // Array results
         int[] result = new int[2];
         try {
@@ -494,6 +499,42 @@ public class Main {
                 System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
                 sortVariable = Integer.parseInt(sc.nextLine());
             } while (sortVariable < 1 || sortVariable > 5);
+            result[1] = sortVariable;
+        } catch (IncompleteDataException  ex) {
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+            System.out.println(Color.BOLD + Color.YELLOW + ex.getMessage() + Color.RESET);
+            System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
+        }
+        return result;
+    }
+
+    public int[] sortingSubmenuOrder() {
+        // Array results
+        int[] result = new int[2];
+        try {
+            int sortType = -1;
+            do {
+                System.out.println(Color.BOLD + Color.UNDERLINE + "\tSORT TYPE METHOD:" + Color.RESET +
+                        Color.BOLD + Color.YELLOW + "\n\t[1]" + Color.RESET + " Upward" +
+                        Color.BOLD + Color.YELLOW + "\n\t[2]" + Color.RESET + " Falling");
+                System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                sortType = Integer.parseInt(sc.nextLine());
+            } while (sortType < 1 || sortType > 2);
+            result[0] = sortType;
+
+            // Array contains String product attributes
+            String[] labels = {Color.BOLD + Color.UNDERLINE + "\tSORT VARIABLE" + Color.RESET,
+                    Color.BOLD + Color.YELLOW + "\n\t[1] " + Color.RESET + "Buyer name",
+                    Color.BOLD + Color.YELLOW + "\n\t[2] " + Color.RESET + "Total price",
+                    Color.BOLD + Color.YELLOW + "\n\t[3] " + Color.RESET + "Date of purchase\n"};
+            int sortVariable = -1;
+            do {
+                for (String label : labels) {
+                    System.out.print(label);
+                }
+                System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
+                sortVariable = Integer.parseInt(sc.nextLine());
+            } while (sortVariable < 1 || sortVariable > 3);
             result[1] = sortVariable;
         } catch (IncompleteDataException  ex) {
             System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
