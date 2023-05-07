@@ -2,6 +2,8 @@ package model;
 
 import color.Color;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import exceptions.EmptyFileException;
 import exceptions.IncompleteDataException;
 
 import java.io.*;
@@ -12,7 +14,7 @@ import java.util.Comparator;
 public class ProductList {
 
     static String folder = "dataBase";
-    static String path = "dataBase/products.txt";
+    static String path = "dataBase/products.json";
 
     private ArrayList<Product> products;
     private BinarySearch<Product> binarySearch;
@@ -34,7 +36,10 @@ public class ProductList {
         File file = new File(path);
         FileOutputStream fos = new FileOutputStream(file);
 
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+
         String data = gson.toJson(products);
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
@@ -45,24 +50,23 @@ public class ProductList {
 
     public void load() throws IOException {
         File file = new File(path);
-        if (file.exists()) {
-            FileInputStream fis = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            String content = "";
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                content += line + "\n";
+        try {
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                String json = new String(java.nio.file.Files.readAllBytes(file.toPath()));
+                Gson gson = new Gson();
+                Product[] array = gson.fromJson(json, Product[].class);
+                products.addAll(Arrays.asList(array));
+                fis.close();
+            } else {
+                File f = new File(folder);
+                if (!f.exists()) {
+                    f.mkdirs();
+                }
+                file.createNewFile();
             }
-            Gson gson = new Gson();
-            Product[] array = gson.fromJson(content, Product[].class);
-            products.addAll(Arrays.asList(array));
-            fis.close();
-        } else {
-            File f = new File(folder);
-            if (!f.exists()) {
-                f.mkdirs();
-            }
-            file.createNewFile();
+        } catch (NullPointerException ex) {
+            throw new EmptyFileException();
         }
     }
 

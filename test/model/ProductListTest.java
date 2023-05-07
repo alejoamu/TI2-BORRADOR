@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-/*public class ProductListTest {
+public class ProductListTest {
 
     ProductList productList;
     Product product1 = new Product("PS5", "VideoGame", 2000000.0, 4, Category.TOYS_AND_GAMES, 2);
@@ -81,7 +81,7 @@ import static org.junit.Assert.*;
         setupStage3();
 
         // Act - Assert
-        assertEquals(productList.searchProduct(1, "Hamburguesa"), "Product: Hamburguesa Description: Pan con carne Price: 25000.00 Quantity Available: 50 Category: FOOD_AND_DRINKS Purchased Number: 3\n");
+        assertEquals(productList.searchProduct(1, "Hamburguesa",  0, 0), "Product: Hamburguesa Description: Pan con carne Price: 25000.00 Quantity Available: 50 Category: FOOD_AND_DRINKS Purchased Number: 3\n");
     }
 
     @Test
@@ -90,7 +90,7 @@ import static org.junit.Assert.*;
         setupStage3();
 
         // Act - Assert
-        assertEquals(productList.searchProduct(1, " "), Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET);
+        assertEquals(productList.searchProduct(1, " ",  0, 0), Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET);
     }
 
     @Test
@@ -148,4 +148,4 @@ import static org.junit.Assert.*;
             productList.searchProductByPurchasedNumber(-5);
         });
     }
-}*/
+}

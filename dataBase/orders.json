@@ -1,0 +1,77 @@
+[
+  {
+    "buyerName": "Alejandro",
+    "productsOrder": [
+      "Board Game"
+    ],
+    "totalPrice": 39.99,
+    "productsQuantity": [
+      "1"
+    ],
+    "purchasedDate": {
+      "year": 2023,
+      "month": 2,
+      "day": 2
+    }
+  },
+  {
+    "buyerName": "Camilo",
+    "productsOrder": [
+      "Popcorn Maker"
+    ],
+    "totalPrice": 29.99,
+    "productsQuantity": [
+      "1"
+    ],
+    "purchasedDate": {
+      "year": 2023,
+      "month": 5,
+      "day": 6
+    }
+  },
+  {
+    "buyerName": "Camilo",
+    "productsOrder": [
+      "Mouse, Graphic Tee"
+    ],
+    "totalPrice": 74.98,
+    "productsQuantity": [
+      "1, 1"
+    ],
+    "purchasedDate": {
+      "year": 2023,
+      "month": 6,
+      "day": 23
+    }
+  },
+  {
+    "buyerName": "Santiago",
+    "productsOrder": [
+      "Speaker, Socks, Graphic Tee"
+    ],
+    "totalPrice": 114.96,
+    "productsQuantity": [
+      "1, 2, 1"
+    ],
+    "purchasedDate": {
+      "year": 2023,
+      "month": 2,
+      "day": 2
+    }
+  },
+  {
+    "buyerName": "Jose",
+    "productsOrder": [
+      "Notebook"
+    ],
+    "totalPrice": 59.97,
+    "productsQuantity": [
+      "3"
+    ],
+    "purchasedDate": {
+      "year": 2023,
+      "month": 1,
+      "day": 1
+    }
+  }
+]

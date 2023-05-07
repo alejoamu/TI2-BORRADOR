@@ -61,7 +61,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchProduct(1, "PS5"), "Product: PS5 Description: VideoGame Price: 2000000.00 Quantity Available: 4 Category: TOYS_AND_GAMES Purchased Number: 2\n");
+        assertEquals(controller.searchProduct(1, "PS5", 0, 0), "Product: PS5 Description: VideoGame Price: 2000000.00 Quantity Available: 4 Category: TOYS_AND_GAMES Purchased Number: 2\n");
     }
 
     @Test
@@ -70,7 +70,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchProduct(2, "70000.0"), "Product: Camiseta Description: Camiseta oversize Price: 70000.00 Quantity Available: 20 Category: CLOTHING_AND_ACCESSORIES Purchased Number: 10\n");
+        assertEquals(controller.searchProduct(2, "70000.0", 0, 0), "Product: Camiseta Description: Camiseta oversize Price: 70000.00 Quantity Available: 20 Category: CLOTHING_AND_ACCESSORIES Purchased Number: 10\n");
     }
 
     @Test
@@ -79,7 +79,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchProduct(3, "3"), "Product: Hamburguesa Description: Pan con carne Price: 25000.00 Quantity Available: 50 Category: FOOD_AND_DRINKS Purchased Number: 3\n");
+        assertEquals(controller.searchProduct(3, "3", 0, 0), "Product: Hamburguesa Description: Pan con carne Price: 25000.00 Quantity Available: 50 Category: FOOD_AND_DRINKS Purchased Number: 3\n");
     }
 
     @Test
@@ -88,7 +88,7 @@ import static org.junit.Assert.*;
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchProduct(4, "3"), "Product: Hamburguesa Description: Pan con carne Price: 25000.00 Quantity Available: 50 Category: FOOD_AND_DRINKS Purchased Number: 3\n");
+        assertEquals(controller.searchProduct(4, "3", 0, 0), "Product: Hamburguesa Description: Pan con carne Price: 25000.00 Quantity Available: 50 Category: FOOD_AND_DRINKS Purchased Number: 3\n");
     }
 
     @Test
@@ -98,7 +98,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(IncompleteDataException.class, () -> {
-            controller.searchProduct(1, "");
+            controller.searchProduct(1, "", 0, 0);
         });
     }
 
@@ -109,7 +109,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(IncompleteDataException.class, () -> {
-            controller.searchProduct(2, " ");
+            controller.searchProduct(2, " ", 0, 0);
         });
     }
 
@@ -120,7 +120,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(NumberFormatException.class, () -> {
-            controller.searchProduct(3, "");
+            controller.searchProduct(3, "", 0, 0);
         });
     }
 
@@ -131,7 +131,7 @@ import static org.junit.Assert.*;
 
         // Act - Assert
         assertThrows(IncompleteDataException.class, () -> {
-            controller.searchProduct(4, "");
+            controller.searchProduct(4, "", 0, 0);
         });
     }
 
@@ -142,7 +142,7 @@ import static org.junit.Assert.*;
 
         // Act
         String expected = "NO PRODUCT HAS THAT CHARACTERISTIC";
-        String actual = controller.searchProduct(1, "XBOX").replaceAll("\u001B\\[[;\\d]*m", "").trim();
+        String actual = controller.searchProduct(1, "XBOX", 0, 0).replaceAll("\u001B\\[[;\\d]*m", "").trim();
 
         // Assert
         assertEquals(actual, expected);
@@ -155,7 +155,7 @@ import static org.junit.Assert.*;
 
         // Act
         String expected = "NO PRODUCT HAS THAT CHARACTERISTIC";
-        String actual = controller.searchProduct(2, "10000.0").replaceAll("\u001B\\[[;\\d]*m", "").trim();
+        String actual = controller.searchProduct(2, "10000.0", 0, 0).replaceAll("\u001B\\[[;\\d]*m", "").trim();
 
         // Assert
         assertEquals(actual, expected);
@@ -168,7 +168,7 @@ import static org.junit.Assert.*;
 
         // Act
         String expected = "NO PRODUCT HAS THAT CHARACTERISTIC";
-        String actual = controller.searchProduct(3, "0").replaceAll("\u001B\\[[;\\d]*m", "").trim();
+        String actual = controller.searchProduct(3, "0", 0, 0).replaceAll("\u001B\\[[;\\d]*m", "").trim();
 
         // Assert
         assertEquals(actual, expected);
@@ -181,7 +181,7 @@ import static org.junit.Assert.*;
 
         // Act
         String expected = "NO PRODUCT HAS THAT CHARACTERISTIC";
-        String actual = controller.searchProduct(4, "5").replaceAll("\u001B\\[[;\\d]*m", "").trim();
+        String actual = controller.searchProduct(4, "5", 0, 0).replaceAll("\u001B\\[[;\\d]*m", "").trim();
 
         // Assert
         assertEquals(actual, expected);

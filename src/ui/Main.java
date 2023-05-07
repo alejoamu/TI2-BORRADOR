@@ -19,6 +19,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Main manager = new Main();
+        controller.loadProductList();
+        controller.loadOrderList();
         manager.showMainMenu();
     }
 
@@ -98,19 +100,16 @@ public class Main {
                 switch (mainOption) {
                     case 1:
                         // Add new product
-                        controller.loadProductList();
                         addProduct();
                         stopFlag = true;
                         break;
                     case 2:
                         // Increase quantity
-                        controller.loadProductList();
                         changeQuantity();
                         stopFlag = true;
                         break;
                     case 3:
                         // Search product
-                        controller.loadProductList();
                         showProductSearchMenu();
                         stopFlag = true;
                         break;
@@ -155,13 +154,11 @@ public class Main {
                 switch (mainOption) {
                     case 1:
                         // Add new order
-                        controller.loadOrderList();
                         addOrder();
                         stopFlag = true;
                         break;
                     case 2:
                         // Search order
-                        controller.loadOrderList();
                         showOrderSearchMenu();
                         stopFlag = true;
                         break;
@@ -310,6 +307,7 @@ public class Main {
                                 System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                             }
                         } while (categoryIndex < 1 || categoryIndex > 8);
+                        sc.nextLine();
                         sort = sortingSubmenuProduct();
                         System.out.println(Color.BLUE + "***************************************************************" + Color.RESET);
                         System.out.print(controller.searchProduct(option, String.valueOf(categoryIndex - 1), sort[0], sort[1]));
@@ -425,7 +423,6 @@ public class Main {
                 sc.nextLine();
                 switch (option) {
                     case 1:
-                        controller.loadOrderList();
                         System.out.println("Please enter the name of the buyer");
                         System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
                         String buyerName = sc.nextLine();
@@ -434,7 +431,6 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 2:
-                        controller.loadOrderList();
                         System.out.println("Please enter the order total price");
                         System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
                         String totalPrice = sc.nextLine();
@@ -443,7 +439,6 @@ public class Main {
                         stopFlag = true;
                         break;
                     case 3:
-                        controller.loadOrderList();
                         System.out.println("Please enter the purchased date");
                         System.out.print(Color.BOLD + Color.YELLOW + "> " + Color.RESET);
                         String purchasedDate = sc.nextLine();
@@ -543,9 +538,6 @@ public class Main {
     }
 
     public void addOrder() throws IOException {
-        controller.loadProductList();
-        System.out.println("PRODUCTS LIST");
-        controller.showProductList();
         // Array contains
         String[] input = new String[5];
         // Array contains String order attributes

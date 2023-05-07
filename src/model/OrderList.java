@@ -2,6 +2,7 @@ package model;
 
 import color.Color;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import exceptions.EmptyFileException;
 import exceptions.IncompleteDataException;
@@ -13,8 +14,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class OrderList {
+
     static String folder = "dataBase";
-    static String path = "dataBase/orders.txt";
+    static String path = "dataBase/orders.json";
     private ArrayList<Order> orders;
     private BinarySearch<Order> binarySearch;
 
@@ -35,29 +37,26 @@ public class OrderList {
         File file = new File(path);
         FileOutputStream fos = new FileOutputStream(file);
 
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+
         String data = gson.toJson(orders);
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-        writer.write(data); // hace que se guarde en el buffer
-        writer.flush(); // hace que el buffer se limpie
+        writer.write(data);
+        writer.flush();
         fos.close();
     }
 
     public void load() throws IOException {
+        File file = new File(path);
         try {
-            File file = new File(path);
             if (file.exists()) {
                 FileInputStream fis = new FileInputStream(file);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-                String content = "";
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    content += line + "\n";
-                }
-                //System.out.println(content);
+                String json = new String(java.nio.file.Files.readAllBytes(file.toPath()));
                 Gson gson = new Gson();
-                Order[] array = gson.fromJson(content, Order[].class);
+                Order[] array = gson.fromJson(json, Order[].class);
                 orders.addAll(Arrays.asList(array));
                 fis.close();
             } else {
