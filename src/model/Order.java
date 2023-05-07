@@ -4,6 +4,7 @@ import exceptions.IncompleteDataException;
 import exceptions.NegativeNumberException;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Order {
@@ -26,7 +27,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return buyerName + " " + productsOrder + " " + totalPrice + " " + purchasedDate;
+        return buyerName + " " + Arrays.toString(productsOrder) + " " + Arrays.toString(productsQuantity) + " " + totalPrice + " " + purchasedDate;
     }
 
     public String getBuyerName() {

@@ -3,10 +3,12 @@ package model;
 import color.Color;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import exceptions.DateFormatException;
 import exceptions.EmptyFileException;
 import exceptions.IncompleteDataException;
 
 import java.io.*;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +74,7 @@ public class OrderList {
 
     public String searchOrder(int option, String data, int sortingType, int sortingVariable) {
         StringBuilder msg = new StringBuilder();
+        if(data.isEmpty()) {throw new IncompleteDataException();}
         switch (option) {
             case 1:
                 ArrayList<Order> ordersFoundBuyerName = searchOrderByBuyerName(data);
@@ -94,7 +97,12 @@ public class OrderList {
                 }
                 break;
             case 3:
-                LocalDate date = LocalDate.parse(data);
+                LocalDate date;
+                try {
+                    date = LocalDate.parse(data);
+                } catch (DateTimeException ex) {
+                    throw new DateFormatException();
+                }
                 ArrayList<Order> ordersByDate = searchProductByPurchasedDate(date);
                 sortingResults(ordersByDate, sortingType, sortingVariable);
                 for (Order o : ordersByDate) {

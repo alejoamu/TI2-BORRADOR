@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 
 public class ControllerTest {
 
@@ -14,9 +13,15 @@ public class ControllerTest {
     LocalDate date1 = LocalDate.of(2023, 4, 5);
     LocalDate date2 = LocalDate.of(2023, 4, 12);
     LocalDate date3 = LocalDate.of(2023, 4, 5);
-    Order order1 = new Order("Santiago", "PS5, PSP, Audífonos", 2000000.0, date1);
-    Order order2 = new Order("James", "Camiseta, Pantaloneta, Guayos", 250000.0, date2);
-    Order order3 = new Order("Luis", "XBOX, Mando inalámbrico, Audífonos", 3000000.0, date3);
+    String[] products1 = {"PS5", "PSP", "Audífonos"};
+    String[] products2 = {"Camiseta", "Pantaloneta", "Guayos"};
+    String[] products3 = {"XBOX", "Mando inalámbrico", "Audífonos"};
+    String[] productsQuantity1 = {"2", "3", "2"};
+    String[] productsQuantity2 = {"3", "1", "2"};
+    String[] productsQuantity3 = {"4", "2", "1"};
+    Order order1 = new Order("Santiago", products1, productsQuantity1,2000000.0, date1);
+    Order order2 = new Order("James", products2, productsQuantity2,250000.0, date2);
+    Order order3 = new Order("Luis", products3, productsQuantity3,3000000.0, date3);
     Product product1 = new Product("PS5", "VideoGame", 2000000.0, 4, Category.TOYS_AND_GAMES, 2);
     Product product2 = new Product("Hamburguesa", "Pan con carne", 25000.0, 50, Category.FOOD_AND_DRINKS, 3);
     Product product3 = new Product("Camiseta", "Camiseta oversize", 70000.0, 20, Category.CLOTHING_AND_ACCESSORIES, 10);
@@ -194,7 +199,7 @@ public class ControllerTest {
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchOrder(1, "Santiago", 0, 0), "Buyer: Santiago Products list: PS5, PSP, Audífonos Total price: 2000000.0 Purchase date: 2023-04-05");
+        assertEquals(controller.searchOrder(1, "Santiago", 0, 0), "BuyerName: Santiago ProductsOrder: [PS5, PSP, Audífonos] TotalPrice: 2000000.00 Products Quantity: [2, 3, 2] Purchase Date: 2023-04-05 \n");
     }
 
     @Test
@@ -203,7 +208,7 @@ public class ControllerTest {
         setupStage2();
 
         // Act - Assert
-        assertEquals(controller.searchOrder(2, "3000000.0", 0, 0), "Buyer: Luis Products list: XBOX, Mando inalámbrico, Audífonos Total price: 3000000.0 Purchase date: 2023-04-05");
+        assertEquals(controller.searchOrder(2, "3000000.0", 0, 0), "BuyerName: Luis ProductsOrder: [XBOX, Mando inalámbrico, Audífonos] TotalPrice: 3000000.00 Products Quantity: [4, 2, 1] Purchase Date: 2023-04-05 \n");
     }
 
     @Test
@@ -233,8 +238,11 @@ public class ControllerTest {
         // Arrange
         setupStage2();
 
-        // Act - Assert
-        assertEquals(controller.searchOrder(1, "Juan", 0, 0), "the order doesn't exist in the list");
+        // Act
+        String result = controller.searchOrder(1, "Juan", 0, 0);
+
+        // Assert
+        assertTrue(result.contains("NO ORDER HAS THAT CHARACTERISTIC"));
     }
 
     @Test
@@ -242,8 +250,11 @@ public class ControllerTest {
         // Arrange
         setupStage2();
 
-        // Act - Assert
-        assertEquals(controller.searchOrder(2, "1000000.0", 0, 0), "the order doesn't exist in the list");
+        // Act
+        String result = controller.searchOrder(2, "1000000.0", 0, 0);
+
+        // Assert
+        assertTrue(result.contains("NO ORDER HAS THAT CHARACTERISTIC"));
     }
 
 }
