@@ -181,7 +181,7 @@ public class ProductList {
                     } else if (minData.compareTo(maxData) > 0) {
                         productsFoundName = searchProductByName(maxData, minData);
                     } else {
-                        return Color.BOLD + Color.YELLOW + "              NO PRODUCT HAS THAT CHARACTERISTIC               \n" + Color.RESET;
+                        productsFoundName = searchProductByName(minData, maxData);
                     }
                     if (productsFoundName != null) {
                         sortingResults(productsFoundName, sortingType, sortingVariable);
